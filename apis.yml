@@ -1,8 +1,8 @@
 aid: aklivity
 name: Aklivity
 description: >-
-  Seamlessly interface web apps, IoT clients, and microservices to Apache Kafka�
-  via declaratively defined, stateless APIs. 
+  Seamlessly interface web apps, IoT clients, and microservices to Apache Kafka� via
+  declaratively defined, stateless APIs.
 type: Index
 position: Consumer
 access: 3rd-Party
@@ -18,8 +18,8 @@ apis:
   - aid: aklivity:aklivity
     name: Aklivity
     description: >-
-      Seamlessly interface web apps, IoT clients, and microservices to Apache
-      Kafka� via declaratively defined, stateless APIs. 
+      Seamlessly interface web apps, IoT clients, and microservices to Apache Kafka�
+      via declaratively defined, stateless APIs.
     humanURL: ' https://www.aklivity.io/'
     tags:
       - API
