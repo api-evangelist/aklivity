@@ -7,8 +7,7 @@ type: Index
 position: Consumer
 access: 3rd-Party
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
-tags:
-  - API
+tags: []
 created: '2026-01-02'
 modified: '2026-03-16'
 url: >-
@@ -21,8 +20,7 @@ apis:
       Seamlessly interface web apps, IoT clients, and microservices to Apache Kafka�
       via declaratively defined, stateless APIs.
     humanURL: ' https://www.aklivity.io/'
-    tags:
-      - API
+    tags: []
     properties:
       - type: Documentation
         url: ' https://www.aklivity.io/'
