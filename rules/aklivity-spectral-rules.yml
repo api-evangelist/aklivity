@@ -1,0 +1,91 @@
+# Aklivity / Zilla AsyncAPI and OpenAPI Spectral Ruleset
+
+rules:
+  info-title-required:
+    message: "API info must have a title"
+    severity: error
+    given: "$.info"
+    then:
+      field: title
+      function: truthy
+
+  info-description-required:
+    message: "API info must have a description"
+    severity: error
+    given: "$.info"
+    then:
+      field: description
+      function: truthy
+
+  info-version-required:
+    message: "API info must have a version"
+    severity: error
+    given: "$.info"
+    then:
+      field: version
+      function: truthy
+
+  servers-defined:
+    message: "Servers must be defined"
+    severity: error
+    given: "$"
+    then:
+      field: servers
+      function: truthy
+
+  operation-summary-required:
+    message: "Every operation must have a summary"
+    severity: error
+    given: "$.paths[*][get,post,put,patch,delete]"
+    then:
+      field: summary
+      function: truthy
+
+  operation-id-required:
+    message: "Every operation must have an operationId"
+    severity: error
+    given: "$.paths[*][get,post,put,patch,delete]"
+    then:
+      field: operationId
+      function: truthy
+
+  operation-tags-required:
+    message: "Every operation must have at least one tag"
+    severity: warn
+    given: "$.paths[*][get,post,put,patch,delete]"
+    then:
+      field: tags
+      function: truthy
+
+  response-description-required:
+    message: "All responses must have a description"
+    severity: error
+    given: "$.paths[*][*].responses[*]"
+    then:
+      field: description
+      function: truthy
+
+  get-no-request-body:
+    message: "GET operations must not have a request body"
+    severity: error
+    given: "$.paths[*].get"
+    then:
+      field: requestBody
+      function: falsy
+
+  paths-kebab-case:
+    message: "Path segments should use kebab-case"
+    severity: info
+    given: "$.paths[*]~"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^(\\/([a-z0-9][a-z0-9\\-]*|\\{[a-zA-Z][a-zA-Z0-9_]*\\}))*$"
+
+  schema-type-defined:
+    message: "Schema properties should have a type"
+    severity: warn
+    given: "$.components.schemas[*].properties[*]"
+    then:
+      field: type
+      function: truthy

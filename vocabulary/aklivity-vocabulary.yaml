@@ -1,0 +1,94 @@
+vocabulary: "1.0.0"
+
+info:
+  provider: "Aklivity"
+  description: "Vocabulary covering the operational and capability dimensions of Aklivity's Zilla multi-protocol Kafka gateway."
+  created: "2026-04-19"
+  modified: "2026-04-19"
+
+operational:
+  apis:
+    - namespace: zilla-gateway
+      version: latest
+      baseUrl: http://{host}:{port}
+      status: active
+
+  resources:
+    - name: kafka-messages
+      api: zilla-gateway
+      actions: [produce, consume]
+    - name: kafka-topics
+      api: zilla-gateway
+      actions: [list, get]
+    - name: mqtt-messages
+      api: zilla-gateway
+      actions: [publish, subscribe]
+    - name: grpc-services
+      api: zilla-gateway
+      actions: [call, stream]
+
+  actions:
+    - name: produce
+      httpMethod: POST
+      pattern: write
+    - name: consume
+      httpMethod: GET
+      pattern: read
+    - name: publish
+      httpMethod: POST
+      pattern: write
+    - name: subscribe
+      pattern: read
+    - name: list
+      httpMethod: GET
+      pattern: read
+    - name: get
+      httpMethod: GET
+      pattern: read
+
+  authentication:
+    schemes:
+      - type: JWT
+        description: JWT token validation for API access control
+      - type: TLS
+        description: Mutual TLS for secure Kafka cluster access
+
+capability:
+  workflows:
+    - name: kafka-api-gateway
+      file: capabilities/kafka-api-gateway.yaml
+      description: Expose Kafka topics as REST APIs and manage event-driven integrations
+      personas: [Platform Engineer, API Developer, IoT Developer]
+      domains: [Kafka Integration, API Gateway, Event-Driven Architecture]
+
+  personas:
+    - id: platform-engineer
+      name: Platform Engineer
+      description: Configures and manages Zilla gateway deployments for Kafka access
+      workflows: [kafka-api-gateway]
+    - id: api-developer
+      name: API Developer
+      description: Builds REST APIs backed by Kafka topics using Zilla
+      workflows: [kafka-api-gateway]
+    - id: iot-developer
+      name: IoT Developer
+      description: Connects IoT devices via MQTT to Kafka using Zilla
+      workflows: [kafka-api-gateway]
+
+  domains:
+    - name: Kafka Integration
+      description: Apache Kafka topic management and event streaming
+    - name: API Gateway
+      description: Multi-protocol API gateway for Kafka access
+    - name: Event-Driven Architecture
+      description: Event-driven application patterns with Kafka as the backbone
+
+crossReference:
+  - resource: kafka-messages
+    operations: [produce, consume]
+    workflows: [kafka-api-gateway]
+    personas: [Platform Engineer, API Developer]
+  - resource: mqtt-messages
+    operations: [publish, subscribe]
+    workflows: [kafka-api-gateway]
+    personas: [IoT Developer]
