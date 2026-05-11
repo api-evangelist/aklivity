@@ -178,6 +178,10 @@ common:
         description: Distributed tracing and observability via OpenTelemetry
       - name: AWS Secrets Manager
         description: Secure credential management for Kafka and TLS configurations
+  - type: Integrations
+    url: https://www.aklivity.io/partners
+integrations:
+  - name: Aklivity
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
