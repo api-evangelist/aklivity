@@ -88,6 +88,10 @@ apis:
       - type: GitHubRepository
         url: https://github.com/aklivity/zillabase
 common:
+  - type: VulnerabilityDisclosure
+    url: security/aklivity-vulnerability-disclosure.yml
+  - type: DomainSecurity
+    url: security/aklivity-domain-security.yml
   - type: LinkedIn
     url: https://www.linkedin.com/company/aklivity
   - type: Website
@@ -182,6 +186,8 @@ common:
         description: Secure credential management for Kafka and TLS configurations
   - type: Integrations
     url: https://www.aklivity.io/partners
+  - url: https://www.aklivity.io/blog
+    type: Blog
 integrations:
   - name: Aklivity
 maintainers:
