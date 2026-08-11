@@ -100,6 +100,16 @@ apis:
       - type: GitHubRepository
         url: https://github.com/aklivity/zillabase
 common:
+  - type: IssueTracker
+    url: https://github.com/aklivity/zilla/issues
+  - type: Releases
+    url: https://github.com/aklivity/zilla/releases
+  - type: SecurityPolicy
+    url: https://github.com/aklivity/zilla/blob/develop/SECURITY.md
+  - type: CodeOfConduct
+    url: https://github.com/aklivity/zilla/blob/develop/.github/CODE_OF_CONDUCT.md
+  - type: ContributionGuide
+    url: https://github.com/aklivity/zilla/blob/develop/.github/CONTRIBUTING.md
   - type: VulnerabilityDisclosure
     url: security/aklivity-vulnerability-disclosure.yml
   - type: DomainSecurity
