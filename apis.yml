@@ -36,7 +36,7 @@ url: >-
   https://raw.githubusercontent.com/api-evangelist/aklivity/refs/heads/main/apis.yml
 created: '2026-01-02'
 modified: '2026-04-19'
-specificationVersion: '0.19'
+specificationVersion: '0.23'
 apis:
   - aid: aklivity:zilla-gateway
     name: Zilla Gateway
