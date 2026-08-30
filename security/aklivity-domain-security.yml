@@ -1,23 +1,23 @@
-generated: '2026-07-11'
+generated: '2026-08-30'
 method: probed
 source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
 hosts:
 - host: www.aklivity.io
   https: true
   tls_version: TLSv1.3
-  cert_expires: Sep 28 13:36:51 2026 GMT
+  cert_expires: Nov 26 16:10:04 2026 GMT
   hsts: true
   hsts_max_age: 31536000
 domains:
 - domain: aklivity.io
   dnssec: true
   caa:
-  - 0 issuewild "awstrust.com"
   - 0 issue "awstrust.com"
-  - 0 issuewild "letsencrypt.org"
-  - 0 issue "letsencrypt.org"
-  - 0 issuewild "pki.goog; cansignhttpexchanges=yes"
   - 0 issue "pki.goog; cansignhttpexchanges=yes"
+  - 0 issuewild "awstrust.com"
+  - 0 issuewild "pki.goog; cansignhttpexchanges=yes"
+  - 0 issue "letsencrypt.org"
+  - 0 issuewild "letsencrypt.org"
   spf: true
   dmarc: true
   dmarc_policy: none

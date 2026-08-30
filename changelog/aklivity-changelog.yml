@@ -1,0 +1,79 @@
+generated: '2026-08-30'
+method: searched
+source: https://github.com/aklivity/zilla/releases
+docs: https://docs.aklivity.io/latest/releases/
+provider: Aklivity
+providerId: aklivity
+scheme: semver
+products_tracked_separately:
+  - name: Zilla
+    notes: https://github.com/aklivity/zilla/releases
+    file: https://github.com/aklivity/zilla/blob/develop/CHANGELOG.md
+    generator: gitflow-changelog (aklivity/gitflow-changelog)
+  - name: Zilla Plus
+    notes: https://docs.aklivity.io/latest/releases/zilla-plus/
+    note: each Plus release records which Zilla version it bundles
+  - name: Zilla Console
+    notes: https://docs.aklivity.io/latest/releases/zilla-console/
+current_version: 2.3.0
+current_released: '2026-08-14'
+maintenance_line:
+  version: 1.3.1
+  released: '2026-08-18'
+  note: 1.x still receiving releases after the 2.x line opened
+window: 2026-02-12 through 2026-08-18
+entries:
+  - version: 1.3.1
+    date: '2026-08-18'
+    line: '1.x'
+    breaking: false
+    highlights: Maintenance release on the 1.x line, four days after 2.3.0.
+  - version: 2.3.0
+    date: '2026-08-14'
+    line: '2.x'
+    breaking: false
+  - version: 2.2.3
+    date: '2026-08-13'
+    line: '2.x'
+    breaking: false
+  - version: 2.2.2
+    date: '2026-08-12'
+    line: '2.x'
+    breaking: false
+  - version: 2.2.1
+    date: '2026-08-11'
+    line: '2.x'
+    breaking: false
+  - version: 2.2.0
+    date: '2026-08-11'
+    line: '2.x'
+    breaking: false
+  - version: 2.1.1
+    date: '2026-08-10'
+    line: '2.x'
+    breaking: false
+  - version: 2.1.0
+    date: '2026-08-08'
+    line: '2.x'
+    breaking: false
+  - version: 2.0.0
+    date: '2026-08-04'
+    line: '2.x'
+    breaking: true
+    highlights: >-
+      Major release. Added mcp-schema-registry and mcp-http proxy bindings,
+      broker-connectivity and protocol-error observability events for
+      binding-kafka, and a DirectBufferEx/MemorySegment buffer migration.
+      Backwards-incompatible zilla.yaml changes are enumerated in the migration
+      guide.
+    migration: https://docs.aklivity.io/latest/deployment/migrating-to-2.x/
+  - version: 1.0.0
+    date: '2026-02-12'
+    line: '1.x'
+    breaking: true
+    highlights: First 1.0 release, ending the long 0.9.x train.
+note: >-
+  Release bodies on the 2.x point releases are generated stubs carrying only a
+  compare link, so per-release highlights are recorded only where the provider
+  actually published them (2.0.0). Nothing is summarised from a diff we did not
+  read.

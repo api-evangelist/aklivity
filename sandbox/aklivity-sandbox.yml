@@ -1,0 +1,75 @@
+generated: '2026-08-30'
+method: searched
+source: https://docs.aklivity.io/latest/cookbooks/
+provider: Aklivity
+providerId: aklivity
+kind: self-hosted
+summary: >-
+  There is no hosted sandbox and no test-vs-live key model, because Aklivity
+  runs no service and issues no credentials. What it publishes instead is a
+  LOCAL try-it path: a Docker Compose quickstart that stands up a configured
+  Zilla plus a Kafka (or Redpanda) cluster, a gRPC Route Guide server and an
+  MQTT simulator, driven by a public Postman workspace. Nothing below requires
+  an account, an API key or a sales conversation. No test cards, magic
+  identifiers or fixture tokens exist for this product and none are invented
+  here.
+hosted_console: false
+credentials_required: false
+quickstart:
+  url: https://docs.aklivity.io/latest/cookbooks/quickstart/
+  runtime: docker compose
+  setup: ./setup.sh
+  teardown: ./teardown.sh
+  kafka_vendor_profiles:
+    - bitnami (default)
+    - redpanda (KAFKA_VENDOR_PROFILE=redpanda ./setup.sh)
+  protocols_exercised: [REST, SSE, gRPC, MQTT]
+  provisions:
+    - a configured Zilla instance
+    - Kafka topics
+    - a gRPC Route Guide server
+    - an MQTT message simulator
+  driver:
+    type: postman
+    url: https://www.postman.com/aklivity-zilla/workspace/aklivity-zilla-quickstart/overview
+    status: 200
+    note: Public Postman workspace, no fork or sign-in required to view.
+cookbooks:
+  url: https://docs.aklivity.io/latest/cookbooks/
+  recipes:
+    - https://docs.aklivity.io/latest/cookbooks/http.kafka.sasl.scram/
+    - https://docs.aklivity.io/latest/cookbooks/http.redpanda.sasl.scram/
+    - https://docs.aklivity.io/latest/cookbooks/mqtt.kafka.broker/
+    - https://docs.aklivity.io/latest/cookbooks/kubernetes.prometheus.autoscale/
+example_repositories:
+  - repo: https://github.com/aklivity/zilla/tree/develop/examples
+    description: >-
+      In-tree runnable examples, each with a compose.yaml and a zilla.yaml —
+      including asyncapi.http.kafka.proxy, asyncapi.mqtt.kafka.proxy,
+      asyncapi.sse.proxy, openapi.proxy and openapi.asyncapi.kafka.proxy.
+      Browsable live in vscode.dev with the Zilla extension.
+    status: active
+  - repo: https://github.com/aklivity/zilla-demos
+    description: Standalone demo applications.
+    last_push: '2026-02-11'
+  - repo: https://github.com/aklivity/zilla-platform-demos
+    description: Zilla Platform demos.
+    last_push: '2026-05-20'
+  - repo: https://github.com/aklivity/zilla-examples
+    description: Pre-canned feature examples.
+    status: ARCHIVED
+    note: Superseded by the in-tree examples/ directory; archived on GitHub.
+  - repo: https://github.com/aklivity/streampay-demo
+    description: A payments-style streaming demo application.
+    last_push: '2025-06-05'
+editor_preview:
+  url: https://vscode.dev/github.com/aklivity/zilla/tree/develop/examples
+  description: >-
+    The docs point at vscode.dev opened directly on the examples directory, so
+    a config can be read and diagrammed in the browser with no local install.
+test_values:
+  published: []
+  note: >-
+    Aklivity publishes no test keys, test cards, magic identifiers or time
+    simulation. The quickstart's credentials are whatever the local compose
+    file generates on the developer's own machine.

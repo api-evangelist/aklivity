@@ -1,0 +1,211 @@
+generated: '2026-08-30'
+method: searched
+source: >-
+  https://docs.aklivity.io/latest/reference/2.x/ , https://www.aklivity.io/pricing ,
+  and the specification files vendored in github.com/aklivity/zilla
+provider: Aklivity
+providerId: aklivity
+summary: >-
+  Aklivity is an implementer of standards rather than a publisher of its own
+  contract. Zilla's value proposition is that it speaks other people's
+  specifications: it is CONFIGURED from OpenAPI and AsyncAPI documents, it
+  validates payloads against JSON Schema / Avro / Protobuf, and it terminates
+  MQTT, gRPC, SSE, WebSocket and MCP Streamable HTTP on the wire. Each entry
+  below cites the exact reference page or vendored schema that evidences it.
+  NOTE ON CERTIFICATION: Aklivity publishes NO third-party security
+  certification. Its Technical and Organizational Measures document (v1.0,
+  effective 2025-01-06) states only "SOC 2-aligned internal controls
+  (in-progress)". No `type: Compliance` pointer is wired in apis.yml, because
+  an alignment claim in progress is not a published certification.
+conformance:
+  - id: openapi
+    name: OpenAPI 3.0.3 / 3.1.0
+    conforms: true
+    role: consumer
+    evidence: >-
+      Zilla vendors the OpenAPI 3.0.3 and 3.1.0 meta-schemas at
+      runtime/common-openapi/src/main/resources/io/aklivity/zilla/runtime/common/openapi/config/schema/
+      and ships binding-openapi plus mcp-openapi, which compile a supplied
+      OpenAPI document into routes and into an MCP tool set.
+    docs: https://docs.aklivity.io/latest/concepts/api-specifications/openapi.html
+  - id: asyncapi
+    name: AsyncAPI 2.6.0 / 3.0.1
+    conforms: true
+    role: consumer
+    evidence: >-
+      Zilla vendors the AsyncAPI 2.6.0 and 3.0.1 meta-schemas at
+      runtime/common-asyncapi/src/main/resources/io/aklivity/zilla/runtime/common/asyncapi/config/schema/
+      and ships binding-asyncapi and binding-openapi-asyncapi, which configure
+      HTTP, SSE, MQTT and Kafka bindings directly from an AsyncAPI document.
+    docs: https://docs.aklivity.io/latest/concepts/api-specifications/asyncapi/
+  - id: mcp
+    name: Model Context Protocol (Streamable HTTP)
+    conforms: true
+    role: implementer
+    evidence: >-
+      mcp server/proxy/client bindings terminate and originate MCP Streamable
+      HTTP; elicitation, tool/prompt/resource listing and session lifecycle are
+      implemented and instrumented (BINDING_MCP_SESSION_ESTABLISHED,
+      BINDING_MCP_SESSION_CLOSED, BINDING_MCP_ELICITATION_TIMEOUT).
+    docs: https://docs.aklivity.io/latest/ai-gateway/mcp-gateway/how-it-works/
+  - id: json-schema
+    name: JSON Schema (draft-04 through 2020-12)
+    conforms: true
+    role: implementer
+    evidence: >-
+      model-json performs runtime payload validation; the repository carries the
+      official JSON Schema conformance suites for draft6, draft7, 2019-09 and
+      2020-12 under runtime/common-json/src/test/resources/.../conformance/.
+      Zilla's own configuration contract, engine.schema.json, is written to
+      JSON Schema draft 2019-09.
+    docs: https://docs.aklivity.io/latest/reference/2.x/config/models/json.html
+  - id: protobuf
+    name: Protocol Buffers / gRPC
+    conforms: true
+    role: implementer
+    evidence: >-
+      binding-grpc (server, client, kafka proxy) and model-protobuf validate and
+      route Protobuf payloads; MODEL_PROTOBUF_VALIDATION_FAILED is a named
+      telemetry event.
+    docs: https://docs.aklivity.io/latest/concepts/api-specifications/protobuf.html
+  - id: avro
+    name: Apache Avro
+    conforms: true
+    role: implementer
+    evidence: model-avro with MODEL_AVRO_VALIDATION_FAILED telemetry event; Confluent, Karapace, Apicurio and AWS Glue schema registries supported as catalogs.
+    docs: https://docs.aklivity.io/latest/reference/2.x/config/models/avro.html
+  - id: mqtt
+    name: MQTT
+    conforms: true
+    role: implementer
+    evidence: binding-mqtt (server/client) and binding-mqtt-kafka turn Kafka into an MQTT broker without an intermediary broker; BINDING_MQTT_CLIENT_CONNECTED telemetry event.
+    docs: https://docs.aklivity.io/latest/reference/2.x/config/bindings/mqtt/
+  - id: sse
+    name: Server-Sent Events (W3C/WHATWG EventSource)
+    conforms: true
+    role: implementer
+    evidence: binding-sse and binding-sse-kafka expose Kafka topics as SSE streams.
+    docs: https://docs.aklivity.io/latest/reference/2.x/config/bindings/sse/
+  - id: websocket
+    name: WebSocket (RFC 6455)
+    conforms: true
+    role: implementer
+    evidence: binding-ws server/client.
+    docs: https://docs.aklivity.io/latest/reference/2.x/config/bindings/ws/
+  - id: http
+    name: HTTP/1.1 and HTTP/2 (RFC 7230 family)
+    conforms: true
+    role: implementer
+    evidence: >-
+      binding-http implements HTTP/1.1 and HTTP/2; the repository carries RFC
+      7230 conformance scripts under
+      specs/binding-http.spec/.../streams/application/rfc7230/, including
+      "proxy.must.not.retry.non.idempotent.requests".
+    docs: https://docs.aklivity.io/latest/reference/2.x/config/bindings/http/
+  - id: idempotency
+    name: Idempotency key on write
+    conforms: true
+    role: implementer
+    evidence: >-
+      http-kafka proxy exposes options.idempotency.header (default
+      `idempotency-key`); grpc-kafka and kafka-grpc carry the equivalent
+      idempotency config. See conventions/aklivity-conventions.yml.
+    docs: https://docs.aklivity.io/latest/reference/2.x/config/bindings/http-kafka/proxy.html
+  - id: oauth2
+    name: OAuth 2.0
+    conforms: true
+    role: implementer
+    evidence: >-
+      OAuth guard supporting client-credentials, jwt-bearer (RFC 7523) and token
+      exchange (RFC 8693); vendor IdP guards for Azure AD, AWS Cognito and AWS
+      IAM. Plus/Enterprise edition.
+    docs: https://docs.aklivity.io/latest/ai-gateway/security/oauth-guard/
+  - id: jwt
+    name: JSON Web Token (RFC 7519) / JWKS
+    conforms: true
+    role: implementer
+    evidence: guard-jwt validates bearer tokens against a configured JWKS; GUARD_JWT_AUTHORIZATION_FAILED telemetry event. Community edition.
+    docs: https://docs.aklivity.io/latest/reference/2.x/config/guards/jwt.html
+  - id: mtls
+    name: Mutual TLS / X.509
+    conforms: true
+    role: implementer
+    evidence: binding-tls with client certificate verification; vault-filesystem and vault-aws-secrets supply key pairs; BINDING_TLS_PEER_NOT_VERIFIED telemetry event.
+    docs: https://docs.aklivity.io/latest/ai-gateway/security/tls/mtls/
+  - id: opentelemetry
+    name: OpenTelemetry Protocol (OTLP)
+    conforms: true
+    role: implementer
+    evidence: exporter-otlp exports metrics and logs over OTLP.
+    docs: https://docs.aklivity.io/latest/ai-gateway/monitoring-observability/exporters/otlp/
+  - id: prometheus
+    name: Prometheus exposition format
+    conforms: true
+    role: implementer
+    evidence: exporter-prometheus serves engine, HTTP, gRPC, stream and Kafka metrics.
+    docs: https://docs.aklivity.io/latest/ai-gateway/monitoring-observability/exporters/prometheus/
+  - id: syslog
+    name: Syslog (RFC 5424)
+    conforms: true
+    role: implementer
+    evidence: exporter-syslog. Plus/Enterprise edition.
+    docs: https://docs.aklivity.io/latest/ai-gateway/monitoring-observability/exporters/syslog/
+  - id: kafka-protocol
+    name: Apache Kafka wire protocol
+    conforms: true
+    role: implementer
+    evidence: >-
+      binding-kafka implements the Kafka protocol directly (cache_client,
+      cache_server, client, server) rather than wrapping a Kafka client;
+      BINDING_KAFKA_API_VERSION_REJECTED is a named telemetry event. Validated
+      against Apache Kafka, AWS MSK, Confluent Cloud/Platform, Redpanda and
+      Aiven.
+    docs: https://docs.aklivity.io/latest/reference/2.x/config/bindings/kafka/
+  - id: rfc9457
+    name: RFC 9457 Problem Details for HTTP APIs
+    conforms: false
+    evidence: >-
+      No application/problem+json envelope is defined anywhere in the Zilla
+      configuration reference or in the telemetry events catalog. Zilla's own
+      failure surface is a named event stream (see
+      errors/aklivity-event-codes.yml), not an HTTP problem document; the HTTP
+      error body a client sees is whatever the upstream or the operator's own
+      configuration produces.
+  - id: scim
+    name: SCIM
+    conforms: false
+    evidence: Not implemented; no SCIM schema URN appears in the configuration schema or docs.
+  - id: odata
+    name: OData
+    conforms: false
+    evidence: Not implemented; no $metadata surface.
+domain_standard:
+  assessed: true
+  market: API gateway / event streaming infrastructure
+  finding: >-
+    The domain standards for this market are OpenAPI, AsyncAPI and — newly —
+    MCP, and Zilla declares all three IN ITS CONFIGURATION CONTRACT rather than
+    only in marketing prose. engine.schema.json defines binding types `openapi`,
+    `asyncapi`, `openapi-asyncapi`, `mcp`, `mcp-http`, `mcp-openapi`,
+    `mcp-kafka`, `mcp-kafka-connect` and `mcp-schema-registry`, and the
+    OpenAPI 3.0.3/3.1.0 and AsyncAPI 2.6.0/3.0.1 meta-schemas are vendored into
+    the runtime so a supplied document is validated against the real
+    specification before it is compiled into routes. A buyer who already
+    maintains OpenAPI or AsyncAPI documents integrates with no bespoke
+    connector; that is the whole product thesis.
+  evidence:
+    - json-schema/aklivity-zilla-engine.schema.json
+    - runtime/common-openapi/src/main/resources/io/aklivity/zilla/runtime/common/openapi/config/schema/openapi.3.1.0.schema.json
+    - runtime/common-asyncapi/src/main/resources/io/aklivity/zilla/runtime/common/asyncapi/config/schema/asyncapi.3.0.1.schema.json
+    - https://docs.aklivity.io/latest/concepts/api-specifications/openapi-asyncapi.html
+certifications:
+  published: []
+  note: >-
+    None published. Aklivity TOMs v1.0 (2025-01-06) records "SOC 2-aligned
+    internal controls (in-progress)", SAST and dependency scanning in CI,
+    Trivy/Snyk container scans, pinned dependencies, an SBOM published with each
+    release, MFA and RBAC on internal systems, and annual security training.
+    That is a stated control set, not an attested certification, and it is
+    scoped to Aklivity's build pipeline rather than to a managed service — the
+    company runs none.
+  source: https://cdn.prod.website-files.com/60e49b51af3305d435c286ab/67f98405cd38fed455d270cb_Aklivity_TOMs_Document.pdf

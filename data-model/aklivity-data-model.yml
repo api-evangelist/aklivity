@@ -1,0 +1,145 @@
+generated: '2026-08-30'
+method: derived
+source: json-schema/aklivity-zilla-engine.schema.json
+provider: Aklivity
+providerId: aklivity
+note: >-
+  Derived from the Zilla engine configuration contract
+  (engine.schema.json, JSON Schema draft 2019-09, title "Namespace"), harvested
+  verbatim from
+  github.com/aklivity/zilla/blob/develop/specs/engine.spec/src/main/scripts/io/aklivity/zilla/specs/engine/schema/engine.schema.json.
+  This is a CONFIGURATION model, not a REST resource model — Aklivity publishes
+  no OpenAPI, so there are no request/response schemas or id-prefix conventions
+  to graph. Every entity, field and cardinality below is read off the schema; the
+  concrete `type` enums are contributed at build time by each plugin's
+  schema.patch.json and are therefore left unenumerated rather than guessed.
+root:
+  entity: Namespace
+  description: The top-level unit of Zilla configuration. One zilla.yaml declares one namespace.
+  fields:
+    - name: name
+      type: string
+      pattern: '^[a-zA-Z]+[a-zA-Z0-9\._\-]*$'
+entities:
+  - name: Binding
+    description: >-
+      A named element in the request pipeline. Bindings chain to form the whole
+      gateway: an entry binding accepts a stream, routes select an exit, and the
+      exit names the next binding.
+    required: [type, kind]
+    fields: [vault, catalog, type, kind, options, routes, telemetry, exit, entry]
+    kinds_seen_in_docs: [server, client, proxy, cache_client, cache_server, remote_server, remote_client]
+    type_families_seen_in_docs:
+      transport: [tcp, tls, http, ws, sse, grpc, mqtt, proxy, filesystem, echo, fan]
+      kafka: [kafka, http-kafka, sse-kafka, grpc-kafka, kafka-grpc, mqtt-kafka]
+      spec_driven: [openapi, asyncapi, openapi-asyncapi]
+      mcp: [mcp, mcp-http, mcp-openapi, mcp-kafka, mcp-kafka-connect, mcp-schema-registry]
+  - name: Guard
+    description: An authorization policy, referenced by a route via routes[].guarded.
+    required: [type]
+    fields: [type, kind, store, options]
+  - name: Vault
+    description: A source of key material and secrets (filesystem, aws-secrets, aws-acm, k8s-secrets).
+    required: [type]
+    fields: [type, options]
+  - name: Catalog
+    description: A schema source (Confluent, Karapace, Apicurio, AWS Glue, filesystem, inline).
+    required: [type]
+    fields: [type, vault, options]
+  - name: Store
+    description: Shared state backing multi-instance deployments (memory, redis, hazelcast).
+    required: [type]
+    fields: [type, options]
+  - name: Telemetry
+    description: Metrics selection and exporter configuration, attachable at namespace and at binding level.
+    fields: [metrics, exporter]
+  - name: Exporter
+    description: A telemetry sink. Named enum contributed by exporter plugins (stdout, syslog, otlp, prometheus, aws-cloudwatch).
+    required: [type]
+    fields: [type, vault]
+  - name: Model
+    description: >-
+      A payload validation type applied to a binding's content (json, avro,
+      protobuf, string, int32, int64, float, double, boolean, core).
+  - name: Route
+    description: A conditional branch inside a binding, matching on protocol-specific `when` conditions and naming an `exit`.
+    fields: [when, exit, guarded, with]
+relationships:
+  - from: Namespace
+    to: Binding
+    type: has_many
+    via: bindings (patternProperties keyed by binding name)
+  - from: Namespace
+    to: Guard
+    type: has_many
+    via: guards
+  - from: Namespace
+    to: Vault
+    type: has_many
+    via: vaults
+  - from: Namespace
+    to: Catalog
+    type: has_many
+    via: catalogs
+  - from: Namespace
+    to: Store
+    type: has_many
+    via: stores
+  - from: Namespace
+    to: Telemetry
+    type: has_one
+    via: telemetry
+  - from: Binding
+    to: Vault
+    type: belongs_to
+    via: vault (name reference)
+  - from: Binding
+    to: Catalog
+    type: belongs_to
+    via: catalog (name reference)
+  - from: Binding
+    to: Route
+    type: has_many
+    via: routes
+  - from: Binding
+    to: Binding
+    type: belongs_to
+    via: routes[].exit (name reference to the next binding)
+    note: This self-reference is what makes a zilla.yaml a pipeline rather than a flat list.
+  - from: Binding
+    to: Telemetry
+    type: has_one
+    via: telemetry
+  - from: Route
+    to: Guard
+    type: belongs_to
+    via: guarded (name reference)
+  - from: Guard
+    to: Store
+    type: belongs_to
+    via: store (name reference)
+  - from: Catalog
+    to: Vault
+    type: belongs_to
+    via: vault (name reference)
+  - from: Telemetry
+    to: Exporter
+    type: has_many
+    via: exporter
+  - from: Exporter
+    to: Vault
+    type: belongs_to
+    via: vault (name reference)
+extension_mechanism:
+  description: >-
+    The schema is deliberately open. `binding-ext`, `model-ext` and the empty
+    `enum: []` lists for binding types, model types, exporter types and metric
+    names are filled at build time by per-plugin `*.schema.patch.json` files
+    (there are 40+ in the repository, one per binding/guard/vault/catalog/
+    exporter). That is why this artifact records the type FAMILIES observed in
+    the published reference rather than an enum lifted from the base schema —
+    the base schema genuinely does not contain one.
+  patch_files_example: specs/binding-http.spec/src/main/scripts/io/aklivity/zilla/specs/binding/http/schema/http.schema.patch.json
+rendering: >-
+  The Zilla VS Code extension renders exactly this graph — bindings as nodes,
+  routes[].exit as edges — as an interactive diagram over a live zilla.yaml.

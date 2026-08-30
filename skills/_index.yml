@@ -1,0 +1,47 @@
+generated: '2026-08-30'
+provider: Aklivity
+providerId: aklivity
+note: >-
+  Aklivity publishes agent guidance of its own — AGENTS.md files committed to
+  the zilla repository — which is captured verbatim below. It publishes no
+  packaged Agent Skills for CALLING an API, and none could honestly be
+  generated: there is no Aklivity OpenAPI to ground operationIds in, and no
+  hosted endpoint to call. The two generated skills below are therefore scoped
+  to what a real, verifiable surface exists for: authoring and operating a
+  zilla.yaml. Every step cites a docs URL or the harvested config schema.
+skills:
+  - file: aklivity-zilla-AGENTS.md
+    name: Zilla — Agent Guide
+    method: searched
+    source: https://raw.githubusercontent.com/aklivity/zilla/develop/AGENTS.md
+    fetched: '2026-08-30'
+    http_status: 200
+    bytes: 14524
+    verbatim: true
+    scope: >-
+      PROVIDER-AUTHORED. Repo-wide guidance for a coding agent working INSIDE
+      the zilla codebase — module layout, Maven/Java 25 build, license headers,
+      where deeper per-subtree guidance lives. It is not instructions for
+      calling an API. Recorded as published, with its scope stated, rather than
+      re-labelled as something it is not.
+    companions_in_repo:
+      - runtime/AGENTS.md
+      - runtime/engine/AGENTS.md
+      - runtime/binding-kafka/AGENTS.md
+      - specs/AGENTS.md
+      - CLAUDE.md (and per-subtree CLAUDE.md mirrors)
+  - file: aklivity-expose-kafka-as-rest.md
+    name: Expose a Kafka topic as a REST API with Zilla
+    method: generated
+    grounded_in:
+      - https://docs.aklivity.io/latest/reference/2.x/config/bindings/http-kafka/proxy.html
+      - https://docs.aklivity.io/latest/deployment/install-zilla/docker.html
+      - json-schema/aklivity-zilla-engine.schema.json
+  - file: aklivity-openapi-as-mcp-tools.md
+    name: Turn an OpenAPI spec into MCP tools with Zilla
+    method: generated
+    grounded_in:
+      - https://docs.aklivity.io/latest/ai-gateway/guides/openapi-specs-as-tools/
+      - https://docs.aklivity.io/latest/ai-gateway/mcp-gateway/how-it-works/
+      - https://docs.aklivity.io/latest/reference/2.x/config/bindings/mcp-openapi/client.html
+      - https://docs.aklivity.io/latest/ai-gateway/security/oauth-guard/

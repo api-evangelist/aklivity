@@ -1,0 +1,119 @@
+generated: '2026-08-30'
+method: searched
+source: >-
+  https://docs.aklivity.io/latest/deployment/install-zilla/ plus registry
+  metadata from ghcr.io, artifacthub.io, github.com/aklivity/homebrew-tap and
+  marketplace.visualstudio.com
+provider: Aklivity
+providerId: aklivity
+note: >-
+  Aklivity ships NO client SDKs. Zilla is a proxy that speaks standard wire
+  protocols (HTTP, SSE, WebSocket, MQTT, gRPC, MCP Streamable HTTP), so
+  consumers use their own protocol clients rather than an Aklivity library.
+  Everything below is a DISTRIBUTION of the gateway itself (container image,
+  Helm chart, Homebrew formula, editor extension, Maven repository), which is
+  why no `type: SDKs` pointer is wired in apis.yml — there are no SDKs to
+  count. npm, PyPI, RubyGems, crates.io, NuGet, pkg.go.dev and Maven Central
+  were all searched and hold no first-party Aklivity package.
+packages:
+  - name: ghcr.io/aklivity/zilla
+    registry: ghcr
+    official: true
+    kind: container-image
+    url: https://github.com/aklivity/zilla/pkgs/container/zilla
+    install: docker run -v ./zilla.yaml:/etc/zilla/zilla.yaml ghcr.io/aklivity/zilla:latest start -ve
+    version: 2.3.0
+    published: '2026-08-14'
+    note: >-
+      Version and date read from the matching GitHub release (aklivity/zilla
+      2.3.0). The GHCR tags/list endpoint answers anonymously (HTTP 200) and the
+      2.3.0, 1.3.1 and latest manifests all resolve; GHCR publishes no per-tag
+      timestamp without a read:packages token, so the release date is used.
+      Both the 1.x and 2.x lines are still tagged.
+  - name: zilla
+    registry: artifacthub
+    official: true
+    kind: helm-chart
+    url: https://artifacthub.io/packages/helm/zilla/zilla
+    repository: oci://ghcr.io/aklivity/charts/zilla
+    install: helm install [RELEASE_NAME] oci://ghcr.io/aklivity/charts/zilla
+    version: 2.4.0-rc25
+    published: '2026-08-30'
+    note: >-
+      Read from the ArtifactHub API (packages/helm/zilla/zilla). Latest
+      published chart is a release candidate; the OCI tag list also carries the
+      0.9.x line.
+  - name: aklivity/tap/zilla
+    registry: homebrew
+    official: true
+    kind: cli-formula
+    url: https://github.com/aklivity/homebrew-tap/blob/main/Formula/zilla.rb
+    install: brew tap aklivity/tap && brew install zilla
+    version: 0.9.159
+    published: null
+    note: >-
+      DECAY SIGNAL. The formula pins version 0.9.159 while the runtime is on
+      2.3.0 (2026-08-14) — the Homebrew tap has not been advanced across the
+      1.x or 2.x boundary, so `brew install zilla` installs a pre-2.0 engine
+      whose zilla.yaml format the migration guide describes as
+      backwards-incompatible. Homebrew publishes no release date for a
+      third-party tap formula, so `published` is null rather than guessed.
+  - name: aklivity/tap/zillabase
+    registry: homebrew
+    official: true
+    kind: cli-formula
+    url: https://github.com/aklivity/homebrew-tap/blob/main/Formula/zillabase.rb
+    install: brew tap aklivity/tap && brew install zillabase
+    version: null
+    published: '2025-03-11'
+    note: >-
+      Formula present in the tap; the ZillaBase project's own latest GitHub
+      release is 0.5.3 (2025-03-11) and the repo has not been pushed since
+      2026-02-11. Formula version not asserted because the file pins it through
+      an interpolated variable rather than a literal read here.
+  - name: aklivity.zilla-vscode-ext
+    registry: vscode-marketplace
+    official: true
+    kind: editor-extension
+    url: https://marketplace.visualstudio.com/items?itemName=aklivity.zilla-vscode-ext
+    version: 1.0.27
+    published: '2024-10-31'
+    note: >-
+      Read from the Visual Studio Marketplace extensionquery API. 276 installs.
+      Last updated 2024-10-31 — nearly two years behind the 2.x config format
+      the YAML IntelliSense feature is meant to validate.
+  - name: io.aklivity.zilla:manager
+    registry: maven
+    official: true
+    kind: java-artifact
+    url: https://maven.packages.aklivity.io
+    install: zpm wrap --remote-repository https://maven.packages.aklivity.io
+    version: null
+    published: null
+    note: >-
+      Aklivity runs its OWN Maven repository at maven.packages.aklivity.io
+      (referenced by the Homebrew formula and by the `zpm wrap` default), not
+      Maven Central — a search of Maven Central for group io.aklivity returns
+      zero artifacts. The repository root answered HTTP 401 to an anonymous
+      maven-metadata.xml request, so no version or date could be read; a
+      consumer resolving through zpm cannot enumerate it either.
+registries_searched:
+  - registry: npm
+    result: none
+    note: "registry.npmjs.org search for 'aklivity' returns 0 packages; 'zilla' matches only unrelated font and fintech packages"
+  - registry: maven-central
+    result: none
+    note: 'search.maven.org for g:io.aklivity and for the bare term returns numFound 0; repo1.maven.org/maven2/io/aklivity/ is 404'
+  - registry: docker-hub
+    result: none
+    note: 'hub.docker.com/v2/repositories/aklivity/ returns count 0 — images are on GHCR, not Docker Hub'
+  - registry: pypi
+    result: none
+  - registry: rubygems
+    result: none
+  - registry: crates.io
+    result: none
+  - registry: nuget
+    result: none
+  - registry: pkg.go.dev
+    result: none

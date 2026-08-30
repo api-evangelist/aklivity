@@ -1,13 +1,18 @@
 aid: aklivity
 name: Aklivity
 description: >-
-  Aklivity provides the Zilla multi-protocol edge and service proxy for
-  event-driven architectures, enabling seamless integration between web apps,
-  IoT clients, and microservices with Apache Kafka via declaratively defined,
-  stateless APIs. Zilla supports HTTP, gRPC, MQTT, SSE, and WebSocket
-  protocols, translating them to and from Kafka without custom code or
-  connectors. The Zilla Platform adds enterprise governance, observability, and
-  self-service access management for Kafka deployments.
+  Aklivity builds Zilla, a stateless, source-available multi-protocol gateway
+  for event-driven applications and AI agents. Zilla translates HTTP, SSE,
+  WebSocket, MQTT, gRPC and MCP Streamable HTTP to and from Apache Kafka and
+  other backends, configured declaratively in a zilla.yaml or driven directly
+  from an OpenAPI or AsyncAPI document, with no custom code, connectors or
+  separate MQTT broker. The Zilla MCP Gateway compiles OpenAPI specs, Kafka
+  topics, Kafka Connect and schema registries into governed MCP tool sets that
+  agents call through one authenticated endpoint. The Zilla Console adds an API
+  and data-product catalog, a self-service developer portal, governance, audit
+  and RBAC. Aklivity is a software vendor rather than a service operator: every
+  Zilla runs inside the customer's own infrastructure, so there is no hosted
+  Aklivity API and no Aklivity-issued credential.
 type: Index
 deliveryModel:
   model: unknown
@@ -37,17 +42,22 @@ position: Consumer
 access: 3rd-Party
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/aklivity.png
 tags:
+  - AI Gateway
   - API Gateway
+  - Agent Infrastructure
   - Apache Kafka
+  - AsyncAPI
   - Event-Driven
   - IoT
   - Kafka Proxy
+  - MCP
   - Multi-Protocol
+  - Open Source
   - Real-Time
 url: >-
   https://raw.githubusercontent.com/api-evangelist/aklivity/refs/heads/main/apis.yml
 created: '2026-01-02'
-modified: '2026-04-19'
+modified: '2026-08-30'
 specificationVersion: '0.23'
 apis:
   - aid: aklivity:zilla-gateway
@@ -59,7 +69,7 @@ apis:
       custom code, or separate MQTT brokers, translating client protocol requests
       directly to Kafka operations declaratively via YAML configuration or
       AsyncAPI specifications.
-    humanURL: https://www.aklivity.io/
+    humanURL: https://www.aklivity.io/zilla-kafka-gateway
     tags:
       - API Gateway
       - Apache Kafka
@@ -68,13 +78,17 @@ apis:
       - Multi-Protocol
     properties:
       - type: Documentation
-        url: https://docs.aklivity.io/zilla/latest/
+        url: https://docs.aklivity.io/latest/kafka-gateway/
+      - type: APIReference
+        url: https://docs.aklivity.io/latest/reference/2.x/
       - type: GettingStarted
-        url: https://docs.aklivity.io/zilla/latest/getting-started/quickstart/
+        url: https://docs.aklivity.io/latest/cookbooks/quickstart/
       - type: GitHubRepository
         url: https://github.com/aklivity/zilla
-      - type: AsyncAPI
-        url: https://docs.aklivity.io/zilla/latest/concepts/config/
+      - type: JSONSchema
+        url: json-schema/aklivity-zilla-engine.schema.json
+      - type: Postman
+        url: https://www.postman.com/aklivity-zilla/workspace/aklivity-zilla-quickstart/overview
   - aid: aklivity:zilla-platform
     name: Zilla Platform
     description: >-
@@ -83,7 +97,7 @@ apis:
       governance policies, a self-service developer portal with API key and
       certificate management, field-level encryption, PII classification, and
       unified observability across Kafka deployments.
-    humanURL: https://www.aklivity.io/platform
+    humanURL: https://www.aklivity.io/zilla-platform
     tags:
       - API Management
       - Developer Portal
@@ -92,9 +106,39 @@ apis:
       - Observability
     properties:
       - type: Documentation
-        url: https://docs.aklivity.io/
+        url: https://docs.aklivity.io/latest/zilla-console/
       - type: GettingStarted
-        url: https://docs.aklivity.io/
+        url: https://docs.aklivity.io/latest/deployment/zilla-console/helm/
+  - aid: aklivity:zilla-mcp-gateway
+    name: Zilla MCP Gateway
+    description: >-
+      The Zilla MCP Gateway is the AI-facing face of the Zilla engine. It
+      terminates Model Context Protocol Streamable HTTP from an agent and routes
+      each tool call to an upstream by toolkit name, so one authenticated
+      endpoint fronts many providers. Tool sets are compiled rather than
+      hand-written: mcp-openapi turns an OpenAPI document into tools, mcp-http
+      exposes any REST API with no upstream MCP server, and mcp-kafka,
+      mcp-kafka-connect and mcp-schema-registry connect straight to those
+      backends. A listing cache answers tools/list, prompts/list and
+      resources/list before any upstream is reached, and an OAuth guard carries
+      per-user identity through to the call. Aklivity hosts no MCP endpoint of
+      its own — the gateway is deployed and owned by the operator.
+    humanURL: https://www.aklivity.io/zilla-mcp-gateway
+    tags:
+      - AI Gateway
+      - Agent Infrastructure
+      - MCP
+      - OpenAPI
+      - Tool Discovery
+    properties:
+      - type: Documentation
+        url: https://docs.aklivity.io/latest/ai-gateway/
+      - type: APIReference
+        url: https://docs.aklivity.io/latest/reference/2.x/config/bindings/mcp/
+      - type: GettingStarted
+        url: https://docs.aklivity.io/latest/ai-gateway/get-started/
+      - type: GitHubRepository
+        url: https://github.com/aklivity/zilla
   - aid: aklivity:zillabase
     name: ZillaBase
     description: >-
@@ -108,7 +152,7 @@ apis:
       - Real-Time
     properties:
       - type: Documentation
-        url: https://docs.aklivity.io/
+        url: https://github.com/aklivity/zillabase#readme
       - type: GitHubRepository
         url: https://github.com/aklivity/zillabase
 common:
@@ -131,15 +175,69 @@ common:
   - type: Website
     url: https://www.aklivity.io/
   - type: Documentation
-    url: https://docs.aklivity.io/zilla/latest/
+    url: https://docs.aklivity.io/latest/
   - type: GettingStarted
-    url: https://docs.aklivity.io/zilla/next/getting-started/quickstart/
+    url: https://docs.aklivity.io/latest/getting-started/
   - type: GitHubOrganization
     url: https://github.com/aklivity
   - type: GitHubRepository
     url: https://github.com/aklivity/zilla
   - type: Pricing
     url: https://www.aklivity.io/pricing
+  - type: APIReference
+    url: https://docs.aklivity.io/latest/reference/2.x/
+  - type: Support
+    url: https://docs.aklivity.io/latest/support/
+  - type: TermsOfService
+    url: https://www.aklivity.io/terms-of-service
+  - type: PrivacyPolicy
+    url: https://www.aklivity.io/privacy-policy
+  - type: Postman
+    url: https://www.postman.com/aklivity-zilla/workspace/aklivity-zilla-quickstart/overview
+  - type: Security
+    url: https://www.aklivity.io/security
+  - type: Deprecation
+    url: https://docs.aklivity.io/latest/deployment/migrating-to-2.x/
+  - type: JSONSchema
+    url: json-schema/aklivity-zilla-engine.schema.json
+  - type: Packages
+    url: packages/aklivity-packages.yml
+  - type: LLMsTxt
+    url: llms/aklivity-llms.txt
+  - type: Conformance
+    url: conformance/aklivity-conformance.yml
+  - type: ErrorCatalog
+    url: errors/aklivity-event-codes.yml
+  - type: Lifecycle
+    url: lifecycle/aklivity-lifecycle.yml
+  - type: Authentication
+    url: authentication/aklivity-authentication.yml
+  - type: Sandbox
+    url: sandbox/aklivity-sandbox.yml
+  - type: Conventions
+    url: conventions/aklivity-conventions.yml
+  - type: Idempotency
+    url: conventions/aklivity-conventions.yml
+  - type: ChangeLog
+    url: changelog/aklivity-changelog.yml
+  - type: CLI
+    url: cli/aklivity-cli.yml
+  - type: DataModel
+    url: data-model/aklivity-data-model.yml
+  - type: AgentSkill
+    url: skills/_index.yml
+  - type: Vocabulary
+    url: vocabulary/aklivity-vocabulary.yaml
+  - type: SpectralRules
+    url: rules/aklivity-spectral-rules.yml
+  - type: JSONLDContext
+    url: json-ld/aklivity-context.jsonld
+  - type: Plans
+    url: plans/aklivity-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/aklivity-rate-limits.yml
+  - type: FinOps
+    url: finops/aklivity-finops.yml
   - type: Features
     data:
       - name: Multi-Protocol Kafka Access
@@ -227,3 +325,9 @@ integrations:
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
+
+x-enrichment:
+  date: '2026-08-30'
+  status: enriched
+  artifacts_added: 18
+  pass: local-v1

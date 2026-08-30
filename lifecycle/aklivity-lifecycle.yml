@@ -1,0 +1,117 @@
+generated: '2026-08-30'
+method: searched
+source: >-
+  https://docs.aklivity.io/latest/releases/ ,
+  https://docs.aklivity.io/latest/deployment/migrating-to-2.x/ ,
+  https://docs.aklivity.io/latest/support/enterprise-support/ ,
+  https://github.com/aklivity/zilla/releases
+provider: Aklivity
+providerId: aklivity
+versioning:
+  scheme: semver
+  current:
+    zilla: 2.3.0
+    zilla_released: '2026-08-14'
+    zilla_1x_maintenance: 1.3.1
+    zilla_1x_released: '2026-08-18'
+  note: >-
+    Zilla crossed from an 0.9.x train straight to 2.0.0 in 2026. Both lines are
+    live: 1.3.1 shipped four days AFTER 2.3.0, so 1.x is receiving maintenance
+    releases in parallel rather than being frozen. Release cadence on the 2.x
+    line is measured in days — 2.1.0, 2.1.1, 2.2.0, 2.2.1, 2.2.2, 2.2.3 and
+    2.3.0 all shipped between 2026-08-08 and 2026-08-14.
+  reference_versions_documented:
+    - '1.x'
+    - '2.x'
+  note_docs: >-
+    The configuration reference is published twice, at
+    /latest/reference/1.x/ and /latest/reference/2.x/, so an operator on either
+    line can confirm prior behavior. That is an unusually explicit versioned
+    documentation posture for a project this size.
+release_notes:
+  index: https://docs.aklivity.io/latest/releases/
+  zilla: https://github.com/aklivity/zilla/releases
+  zilla_plus: https://docs.aklivity.io/latest/releases/zilla-plus/
+  zilla_console: https://docs.aklivity.io/latest/releases/zilla-console/
+  changelog_file: https://github.com/aklivity/zilla/blob/develop/CHANGELOG.md
+  note: >-
+    Three products, three cadences, tracked separately. The Zilla Plus release
+    notes record which Zilla version each commercial release bundles.
+deprecation:
+  policy_published: true
+  form: migration-guide
+  url: https://docs.aklivity.io/latest/deployment/migrating-to-2.x/
+  repo_file: https://github.com/aklivity/zilla/blob/develop/MIGRATING.md
+  scope: >-
+    Scoped to the core zilla repository (engine and in-tree bindings, guards and
+    vaults). Components shipped from other repositories, for example zilla-plus,
+    are covered separately.
+  sunset_headers: false
+  sunset_headers_note: >-
+    No RFC 8594 Sunset/Deprecation header policy is published, and none would
+    apply — Aklivity operates no hosted endpoint to send one from. Breaking
+    change is communicated as a config-migration document instead.
+  breaking_changes_1x_to_2x:
+    - zilla.json fallback removed; zilla.yaml is the only config file format
+    - 'binding-kafka: client-kind bindings no longer route by topic condition'
+    - 'binding-kafka: options.sasl removed in favor of options.authorization'
+    - 'binding-grpc: options.services removed in favor of a catalog'
+    - 'binding-mqtt-kafka: options.server removed in favor of the engine service.hostname property'
+    - 'binding-mqtt: kind server now requires options.store'
+    - 'binding-tcp: routes[].exit is now enforced for kind server'
+    - 'binding-openapi / binding-asyncapi / binding-openapi-asyncapi: options.specs.<name>.servers is now a required list of strings; route conditions renamed; kind client no longer routes'
+    - 'binding-mcp: options and routes restructured'
+    - 'guard-jwt: the kind property was previously ignored and is now rejected'
+status_page:
+  published: false
+  note: >-
+    No status page exists and none is expected: status.aklivity.io does not
+    resolve, and Aklivity runs no service whose availability it could report.
+    Every Zilla deployment is availability-owned by the customer running it. No
+    `type: StatusPage` pointer is wired in apis.yml.
+  probe:
+    url: https://status.aklivity.io/
+    status: '000 (no DNS / no connection)'
+sla:
+  applies_to: Zilla Plus and Enterprise support contracts, not to a hosted service
+  url: https://docs.aklivity.io/latest/support/enterprise-support/
+  tiers:
+    - name: Platinum
+      availability: 24x7
+      response_targets:
+        severity_1_urgent: 2 hours
+        severity_2_high: 4 hours
+        severity_3_normal: 1 business day
+        severity_4_low: 5 business days
+      channels: [chat, email, phone, web portal]
+    - name: Gold
+      availability: 12x5
+      response_targets:
+        severity_1_urgent: 8 hours
+      note: >-
+        Severity 2-4 targets for Gold are published on the same page; only the
+        Severity 1 figure is transcribed here because the lower rows were
+        truncated in the fetched page and are not asserted from memory.
+      channels: [chat, email, phone, web portal]
+  version_upgrade_notifications: >-
+    The enterprise support page documents a Version Upgrade Notifications
+    commitment for contracted customers.
+support:
+  community_slack: https://join.slack.com/t/aklivitycommunity/shared_invite/zt-sy06wvr9-u6cPmBNQplX5wVfd9l2oIQ
+  github_discussions: https://github.com/aklivity/zilla/discussions
+  issue_tracker: https://github.com/aklivity/zilla/issues
+  ticket_portal: https://www.aklivity.io/request-submission
+  email: support@aklivity.io
+licensing:
+  url: https://docs.aklivity.io/latest/reference/editions/licensing.html
+  community: >-
+    Source-available under the Aklivity Community License Agreement v1.0 (ACL),
+    with select components under Apache License 2.0. Each component in the repo
+    carries its own LICENSE file. The ACL permits use, modification and
+    redistribution free of charge, excluding an "Excluded Purpose" — offering
+    the software as a competing SaaS/PaaS/IaaS.
+  commercial: >-
+    Plus and Enterprise ship under a separate commercial agreement, activated
+    with a license key issued on purchase or trial.
+  full_text: https://www.aklivity.io/aklivity-community-license
+deprecated_operations: []

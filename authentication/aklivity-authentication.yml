@@ -1,0 +1,126 @@
+generated: '2026-08-30'
+method: searched
+source: https://docs.aklivity.io/latest/reference/2.x/config/guards/
+docs: https://docs.aklivity.io/latest/ai-gateway/security/oauth-guard/
+provider: Aklivity
+providerId: aklivity
+scope: >-
+  IMPORTANT SCOPE NOTE. Aklivity operates no hosted API, so there is no
+  Aklivity credential to obtain and no Aklivity token endpoint to call. What is
+  documented here is the authentication model Zilla ENFORCES on the API surface
+  its operator exposes — the "guards" a zilla.yaml attaches to routes. An agent
+  integrating with a Zilla-fronted API authenticates against the operator's own
+  identity provider, using one of the schemes below, as configured by that
+  operator. Nothing in this file is derived from an OpenAPI securityScheme,
+  because Aklivity publishes no OpenAPI of its own.
+model: guard-based
+placement: >-
+  A guard is declared once under `guards:` in the namespace and referenced from
+  a route via `routes[].guarded`, so authorization is expressed per route and
+  per binding rather than globally.
+schemes:
+  - id: jwt
+    type: http-bearer
+    name: JWT guard
+    edition: community
+    description: >-
+      Validates a bearer JSON Web Token against a configured issuer, audience
+      and JWKS key set. Claims are surfaced as roles usable in route guards.
+    docs: https://docs.aklivity.io/latest/reference/2.x/config/guards/jwt.html
+    failure_event: GUARD_JWT_AUTHORIZATION_FAILED
+    note: >-
+      Zilla 2.x removed the `kind` property from guard-jwt; a 1.x config that
+      set it is now rejected rather than silently ignored. See
+      https://docs.aklivity.io/latest/deployment/migrating-to-2.x/
+  - id: api-keys
+    type: apiKey
+    name: API key guard
+    edition: plus
+    description: Validates a shared API key presented by the client.
+    docs: https://docs.aklivity.io/latest/reference/2.x/config/guards/api-keys.html
+  - id: oauth
+    type: oauth2
+    name: OAuth guard
+    edition: plus
+    description: >-
+      OAuth 2.0 authorization with three documented flows — client credentials
+      for machine-to-machine, JWT bearer (RFC 7523) for asserting an existing
+      identity, and token exchange (RFC 8693) for swapping an inbound token for
+      a downstream one so per-user identity survives a tool call.
+    docs: https://docs.aklivity.io/latest/reference/2.x/config/guards/oauth.html
+    flows:
+      - id: client-credentials
+        docs: https://docs.aklivity.io/latest/ai-gateway/security/oauth-guard/client-credentials/
+      - id: jwt-bearer
+        docs: https://docs.aklivity.io/latest/ai-gateway/security/oauth-guard/jwt-bearer/
+      - id: token-exchange
+        docs: https://docs.aklivity.io/latest/ai-gateway/security/oauth-guard/token-exchange/
+  - id: azure-ad
+    type: openIdConnect
+    name: Azure AD guard
+    edition: plus
+    docs: https://docs.aklivity.io/latest/reference/2.x/config/guards/azure-ad.html
+    failure_event: GUARD_AZURE_AD_AUTHORIZATION_FAILED
+  - id: aws-cognito
+    type: openIdConnect
+    name: AWS Cognito guard
+    edition: plus
+    docs: https://docs.aklivity.io/latest/reference/2.x/config/guards/aws-cognito.html
+    failure_event: GUARD_AWS_COGNITO_AUTHORIZATION_FAILED
+  - id: aws-iam
+    type: aws-sigv4
+    name: AWS IAM guard
+    edition: plus
+    docs: https://docs.aklivity.io/latest/reference/2.x/config/guards/aws-iam.html
+  - id: aws-lambda
+    type: custom
+    name: AWS Lambda guard
+    edition: plus
+    description: Delegates the authorization decision to a customer-supplied Lambda function.
+    docs: https://docs.aklivity.io/latest/reference/2.x/config/guards/aws-lambda.html
+  - id: x509
+    type: mutualTLS
+    name: X.509 guard
+    edition: plus
+    description: Client-certificate identity, paired with the tls binding for mTLS termination.
+    docs: https://docs.aklivity.io/latest/reference/2.x/config/guards/x509.html
+    failure_event: BINDING_TLS_PEER_NOT_VERIFIED
+  - id: inline
+    type: static
+    name: Inline guard
+    edition: community
+    description: Credentials declared inline in zilla.yaml. Intended for development and testing, not production.
+    docs: https://docs.aklivity.io/latest/reference/2.x/config/guards/inline.html
+transport_security:
+  - id: tls
+    description: TLS termination and origination, with SNI-based routing.
+    docs: https://docs.aklivity.io/latest/ai-gateway/security/tls/
+  - id: mtls
+    description: Mutual TLS between agent/client and gateway, and between gateway and upstream.
+    docs: https://docs.aklivity.io/latest/ai-gateway/security/tls/mtls/
+upstream_credentials:
+  description: >-
+    Credentials Zilla itself presents to a backend, rather than credentials it
+    checks.
+  kafka_sasl:
+    mechanisms:
+      - PLAIN
+      - SCRAM
+    note: >-
+      Zilla 2.x replaced `binding-kafka options.sasl` with
+      `options.authorization`. Events BINDING_KAFKA_AUTHORIZATION_FAILED and
+      BINDING_KAFKA_CLUSTER_AUTHORIZATION_FAILED report failures.
+  vaults:
+    - id: filesystem
+      docs: https://docs.aklivity.io/latest/reference/2.x/config/vaults/filesystem.html
+    - id: aws-secrets
+      description: AWS Secrets Manager. Plus/Enterprise.
+      failure_event: VAULT_AWS_SECRETS_KEY_PAIR_INVALID
+self_service:
+  description: >-
+    The Zilla Console (Enterprise, or a flat-rate add-on to Plus) adds a
+    self-service developer portal where a consumer subscribes to an API Product
+    and is issued an API key or client certificate under that product's plan.
+    The Console is deployed by the customer via Helm; there is no Aklivity-hosted
+    portal to sign up for.
+  docs: https://docs.aklivity.io/latest/zilla-console/api-catalog/

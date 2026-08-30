@@ -1,0 +1,155 @@
+generated: '2026-08-30'
+method: searched
+source: https://docs.aklivity.io/latest/reference/2.x/config/
+provider: Aklivity
+providerId: aklivity
+scope: >-
+  Cross-cutting runtime semantics of the API surface Zilla EXPOSES, read from
+  the 2.x configuration reference. Aklivity operates no hosted API of its own,
+  so there is no Aklivity request envelope to describe; what follows is the
+  contract an operator gets — and therefore what an agent calling a
+  Zilla-fronted endpoint can rely on when the operator has configured it.
+auth:
+  style: guard-per-route
+  detail: see authentication/aklivity-authentication.yml
+idempotency:
+  supported: true
+  mechanism: request header carrying an idempotency key
+  header: idempotency-key
+  configurable: true
+  config_path: options.idempotency.header
+  default: idempotency-key
+  bindings:
+    - name: http-kafka
+      kind: proxy
+      docs: https://docs.aklivity.io/latest/reference/2.x/config/bindings/http-kafka/proxy.html
+      detail: >-
+        `options.idempotency.header` names the HTTP request header used to
+        carry the idempotency key on a `capability: produce` route, so a
+        repeated PUT/POST of the same key does not duplicate the Kafka record.
+        The header name is operator-overridable; the default is
+        `idempotency-key`.
+    - name: grpc-kafka
+      kind: proxy
+      config_class: GrpcKafkaIdempotencyConfig
+      detail: Equivalent idempotency configuration on the gRPC-to-Kafka proxy.
+    - name: kafka-grpc
+      kind: remote_server
+      config_class: KafkaGrpcIdempotencyConfig
+      detail: Equivalent idempotency configuration on the Kafka-to-gRPC path.
+  http_semantics: >-
+    binding-http carries RFC 7230 conformance scripts including
+    "proxy.must.not.retry.non.idempotent.requests" — the engine will not
+    transparently retry a non-idempotent request.
+  scope_note: >-
+    Retention window for a seen idempotency key is not published. An agent
+    should treat replay protection as guaranteed only within whatever window
+    the operator's Kafka topic retention provides.
+correlation:
+  supported: true
+  mechanism: >-
+    On a request-response route the http-kafka proxy injects Kafka headers for
+    reply-to and correlation-id, and the async response is retrieved on a
+    correlated GET.
+  config_path: options.correlation.headers
+  defaults:
+    reply_to: zilla:reply-to
+    correlation_id: zilla:correlation-id
+  async_location_pattern: /items/${params.id};cid=${correlationId}
+  docs: https://docs.aklivity.io/latest/reference/2.x/config/bindings/http-kafka/proxy.html
+pagination:
+  style: not-applicable
+  note: >-
+    Zilla exposes Kafka topics as streams (SSE, WebSocket, MQTT) or as
+    snapshot/fetch routes, not as paged collections. There is no page/cursor
+    convention to document; continuity is offset-based inside Kafka.
+versioning:
+  style: config-schema-version
+  detail: >-
+    The engine, not the URL, carries the version. Two configuration reference
+    trees (1.x and 2.x) are published, and a config written for 1.x must be
+    migrated across the 2.0.0 boundary. See lifecycle/aklivity-lifecycle.yml.
+error_envelope:
+  style: named-telemetry-events
+  rfc9457: false
+  detail: see errors/aklivity-event-codes.yml
+rate_limit_signaling:
+  provider_published_headers: []
+  note: >-
+    Zilla emits no standard rate-limit response header set of its own. Rate
+    limiting is expressed as a per-API-Product plan in the Zilla Console
+    (Enterprise), where the operator sets the limit; what a client sees on
+    exhaustion is therefore operator-determined. See
+    rate-limits/aklivity-rate-limits.yml.
+observability:
+  request_id: >-
+    No request-id header convention is published. Correlation on
+    request-response routes is carried by the Kafka correlation-id header
+    instead (see `correlation` above).
+  metrics: >-
+    http, grpc, stream and kafka metric families, exported via prometheus or
+    otlp.
+  logs: >-
+    `zilla logs` streams named engine events; without -f it prints the current
+    log and exits, which the docs call out as usable as a Docker HEALTHCHECK.
+  exporters: [stdout, syslog, aws-cloudwatch, otlp, prometheus]
+dry_run_mode:
+  supported: partial
+  detail: >-
+    There is no dry-run for a data-plane call. There IS a rehearsal path for a
+    configuration change: the Zilla VS Code extension renders zilla.yaml as a
+    diagram with YAML IntelliSense and surfaces missing connections and errors
+    before the config is applied, and engine.schema.json (JSON Schema
+    2019-09) can be run against a config in CI. Config errors are therefore
+    catchable before deployment; a produced Kafka record is not.
+  evidence:
+    - json-schema/aklivity-zilla-engine.schema.json
+    - https://docs.aklivity.io/latest/getting-started/vscode/
+reversibility:
+  grade: documented
+  applies_to: configuration plane
+  data_plane:
+    state: na
+    reason: >-
+      Aklivity ships no hosted write surface. Records produced through a Zilla
+      route land in the customer's own Kafka topic, and reversal there is a
+      property of Kafka and of the operator's application design, not of
+      anything Aklivity publishes. Asserting a reversal window would be
+      inventing one.
+  config_plane:
+    reversal_operations:
+      - operation: zilla stop
+        description: Stops the running engine.
+        docs: https://docs.aklivity.io/latest/reference/2.x/config/zilla-cli.html
+      - operation: helm uninstall [RELEASE_NAME]
+        description: Removes every Kubernetes component associated with the Zilla chart.
+        docs: https://docs.aklivity.io/latest/deployment/install-zilla/helm/
+      - operation: docker stop / docker rm
+        description: Stops and removes the Zilla container.
+        docs: https://docs.aklivity.io/latest/deployment/install-zilla/docker.html
+      - operation: revert zilla.yaml and reload
+        description: >-
+          Zilla is stateless and declaratively configured, so rolling a change
+          back means restoring the previous zilla.yaml. Auto-reconfigure watches
+          the config source and re-applies on change.
+        docs: https://docs.aklivity.io/latest/deployment/configure-zilla/auto-reconfigure.html
+    window:
+      stated: false
+      note: >-
+        No time-bounded reversal window is published for any of these, and none
+        is invented here. Grade is `documented` (a reversal path exists and is
+        named) rather than `verified` (a reversal path AND a stated window),
+        exactly per the rubric.
+  upgrade_reversibility:
+    note: >-
+      The 1.x-to-2.x migration is documented as backwards-INCOMPATIBLE at the
+      config level: a 2.x-shaped zilla.yaml will not run on 1.x. Rolling an
+      engine upgrade back therefore requires rolling the config back with it.
+      Both reference trees stay published, which is what makes that possible.
+    docs: https://docs.aklivity.io/latest/deployment/migrating-to-2.x/
+cross_links:
+  - authentication/aklivity-authentication.yml
+  - errors/aklivity-event-codes.yml
+  - lifecycle/aklivity-lifecycle.yml
+  - rate-limits/aklivity-rate-limits.yml
+  - conformance/aklivity-conformance.yml

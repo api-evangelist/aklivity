@@ -3,102 +3,56 @@ specificationVersion: '0.1'
 schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
 provider: Aklivity
 providerId: aklivity
+generated: '2026-08-30'
+method: searched
+source: >-
+  https://www.aklivity.io/pricing and
+  https://docs.aklivity.io/latest/zilla-console/api-catalog/plans/
 created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-04'
-tags:
-  - API Gateway
-  - Apache Kafka
-  - Event-Driven
-  - IoT
-  - Kafka Proxy
-  - Multi-Protocol
-  - Real-Time
-  - Rate Limiting
-  - Quotas
-  - Throttling
-description: Machine-readable rate limit definitions for the Aklivity API surface. Captures per-tier quotas,
-  burst behavior, response signaling, and recovery semantics. Defaults are scaffold values to be replaced
-  with published provider limits.
+modified: '2026-08-30'
+supersedes: >-
+  A generated scaffold dated 2026-05-04 that asserted 10/100/1000 requests per
+  minute per tier, 1,000 and 100,000 monthly quotas, an X-RateLimit-* header
+  set, 429/503 response codes and four throttling policies. Aklivity publishes
+  none of that. The scaffold is replaced by the honest zero below.
+limit_count: 0
+description: >-
+  Aklivity publishes NO rate limits, because it operates no hosted API to
+  limit. Its own pricing page states the commercial model carries "No
+  throughput metering." Rate limiting in this product is a CAPABILITY the
+  operator configures, not a policy Aklivity enforces: in the Zilla Console
+  (Enterprise, or a flat-rate add-on to Plus) each API Product carries a plan
+  whose fields include a Rate Limit, a Quota, a Security requirement, an
+  Approval mode and an optional SLA — and the operator sets them. What a
+  consumer of a Zilla-fronted API sees on exhaustion is therefore determined by
+  that operator, not by Aklivity.
 headers:
-  limit: X-RateLimit-Limit
-  remaining: X-RateLimit-Remaining
-  reset: X-RateLimit-Reset
-  retryAfter: Retry-After
-  policy: RateLimit-Policy
+  published: false
+  note: >-
+    No X-RateLimit-*, RateLimit-* or Retry-After convention is documented
+    anywhere in the Zilla configuration reference. None is asserted here.
 responseCodes:
-  throttled: 429
-  quotaExceeded: 429
-  serviceUnavailable: 503
-limits:
-  - tier: free
-    name: Free Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 10
-    burst: 20
-    timeFrame: minute
-    applies:
-      - Zilla Gateway
-      - Zilla Platform
-      - ZillaBase
-  - tier: free
-    name: Free Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 1000
-    timeFrame: month
-    applies:
-      - Zilla Gateway
-      - Zilla Platform
-      - ZillaBase
-  - tier: professional
-    name: Professional Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 100
-    burst: 200
-    timeFrame: minute
-    applies:
-      - Zilla Gateway
-      - Zilla Platform
-      - ZillaBase
-  - tier: professional
-    name: Professional Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 100000
-    timeFrame: month
-    applies:
-      - Zilla Gateway
-      - Zilla Platform
-      - ZillaBase
-  - tier: enterprise
-    name: Enterprise Negotiated Limit
-    scope: contract
-    metric: requests_per_minute
-    limit: 1000
-    burst: 5000
-    timeFrame: minute
-    applies:
-      - Zilla Gateway
-      - Zilla Platform
-      - ZillaBase
-policies:
-  - name: Backoff Strategy
-    description: Clients should implement exponential backoff with jitter, honoring the Retry-After header
-      when present.
-  - name: Burst Handling
-    description: Short bursts above the steady-state limit are tolerated up to the documented burst ceiling
-      before throttling engages.
-  - name: Quota Reset
-    description: Monthly quotas reset at the start of each calendar month in UTC. Per-minute and per-second
-      windows reset on a sliding-window basis.
-  - name: Fair Use
-    description: Even on uncapped enterprise tiers, sustained usage that materially impacts shared infrastructure
-      may be subject to fair-use throttling.
+  published: false
+limits: []
+operator_configurable:
+  surface: Zilla Console API Product plan
+  docs: https://docs.aklivity.io/latest/zilla-console/api-catalog/plans/
+  edition: Enterprise (or Plus with the Console add-on)
+  plan_fields:
+    - name: Rate Limit
+      example_from_docs: '5000 mb/s, or Unlimited'
+      note: The docs example is expressed as bandwidth, not requests per second.
+    - name: Quota
+      example_from_docs: usage cap applied to subscribers, or Unlimited
+    - name: Security
+      example_from_docs: 'API Key · PLAIN'
+    - name: Approval
+      example_from_docs: Automatic or manual approval for new subscriptions
+    - name: SLA
+      example_from_docs: an optional service-level commitment
+  note: >-
+    Plans are configured per API Product from that product's Details tab; the
+    docs record that a separate catalog-level plans screen no longer exists.
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com

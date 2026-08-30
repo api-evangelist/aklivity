@@ -1,0 +1,95 @@
+generated: '2026-08-30'
+method: probed
+source: live GET probes of /.well-known/* on every host named in apis.yml
+provider: Aklivity
+providerId: aklivity
+summary: >-
+  No /.well-known/ document is served on any Aklivity host. All 24 probes (8
+  paths x 3 hosts) returned 404. www.aklivity.io and aklivity.io answer 404
+  with an HTML body reading "Invalid .well-known request" — a Webflow catch-all,
+  not a document; docs.aklivity.io returns a bodyless 404. No security.txt, no
+  OAuth/OIDC metadata, no api-catalog, no ai-plugin, no agent card. NO
+  WellKnown / SecurityTxt pointer is wired in apis.yml, because a recorded
+  absence is data about the provider and must not read as a presence.
+  Aklivity's vulnerability-disclosure program is real but is published as a PDF
+  linked from https://www.aklivity.io/security rather than as an RFC 9116
+  security.txt.
+hosts:
+  - host: www.aklivity.io
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+        file: null
+      - path: /.well-known/openid-configuration
+        status: 404
+        file: null
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+        file: null
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+        file: null
+      - path: /.well-known/api-catalog
+        status: 404
+        file: null
+      - path: /.well-known/ai-plugin.json
+        status: 404
+        file: null
+      - path: /.well-known/agent-card.json
+        status: 404
+        file: null
+      - path: /.well-known/agent.json
+        status: 404
+        file: null
+  - host: docs.aklivity.io
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+        file: null
+      - path: /.well-known/openid-configuration
+        status: 404
+        file: null
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+        file: null
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+        file: null
+      - path: /.well-known/api-catalog
+        status: 404
+        file: null
+      - path: /.well-known/ai-plugin.json
+        status: 404
+        file: null
+      - path: /.well-known/agent-card.json
+        status: 404
+        file: null
+      - path: /.well-known/agent.json
+        status: 404
+        file: null
+  - host: aklivity.io
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+        file: null
+      - path: /.well-known/openid-configuration
+        status: 404
+        file: null
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+        file: null
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+        file: null
+      - path: /.well-known/api-catalog
+        status: 404
+        file: null
+      - path: /.well-known/ai-plugin.json
+        status: 404
+        file: null
+      - path: /.well-known/agent-card.json
+        status: 404
+        file: null
+      - path: /.well-known/agent.json
+        status: 404
+        file: null

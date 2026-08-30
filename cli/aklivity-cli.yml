@@ -1,0 +1,113 @@
+generated: '2026-08-30'
+method: searched
+source: >-
+  https://docs.aklivity.io/latest/reference/2.x/config/zilla-cli.html and
+  https://docs.aklivity.io/latest/reference/2.x/manager/zpm-cli.html
+provider: Aklivity
+providerId: aklivity
+summary: >-
+  Two first-party CLIs. `zilla` is the runtime CLI — it starts, stops, observes
+  and tunes the engine. `zpm` is the Zilla Manager, which resolves and packages
+  the runtime with minimal dependencies from Aklivity's own Maven repository.
+  Both are documented per major line (1.x and 2.x).
+clis:
+  - name: zilla
+    title: Zilla Runtime CLI
+    docs: https://docs.aklivity.io/latest/reference/2.x/config/zilla-cli.html
+    docs_1x: https://docs.aklivity.io/latest/reference/1.x/config/zilla-cli.html
+    install:
+      - method: homebrew
+        command: brew tap aklivity/tap && brew install zilla
+        docs: https://docs.aklivity.io/latest/deployment/install-zilla/homebrew.html
+        caveat: the tap formula pins 0.9.159 — see packages/aklivity-packages.yml
+      - method: docker
+        command: docker run -v ./zilla.yaml:/etc/zilla/zilla.yaml ghcr.io/aklivity/zilla:latest start -ve
+        docs: https://docs.aklivity.io/latest/deployment/install-zilla/docker.html
+      - method: helm
+        command: helm install [RELEASE_NAME] oci://ghcr.io/aklivity/charts/zilla
+        docs: https://docs.aklivity.io/latest/deployment/install-zilla/helm/
+    commands:
+      - name: start
+        description: Start the engine.
+        flags:
+          - '-c --config'
+          - '-e --exception-traces'
+          - '-p --properties'
+          - '-P --property'
+          - '-v --verbose'
+          - '-w --workers'
+      - name: stop
+        description: Stop the engine.
+      - name: logs
+        description: >-
+          Show event logs for a running engine, attaching to the same engine
+          directory as `zilla start`. Without -f it prints the current log and
+          exits, which the docs call out as usable as a Docker HEALTHCHECK.
+        flags:
+          - '-f --follow'
+          - '--format <format>'
+      - name: metrics
+        description: Show engine metrics.
+        flags:
+          - '--namespace <namespace>'
+      - name: dump
+        description: >-
+          Write a pcap of internal engine state, readable in Wireshark via the
+          bundled zilla.lua dissector plugin. Incubator feature.
+        flags:
+          - '-a --affinity <affinity>'
+          - '-b --bindings <bindings>'
+          - '-i --install <plugin-directory>'
+          - '-v --verbose'
+          - '-w --write <output>'
+        status: incubator
+      - name: tune
+        description: Tune the running engine.
+      - name: version
+        description: Print the engine version.
+      - name: help
+        description: Show help for the CLI or for a specific command.
+  - name: zpm
+    title: Zilla Manager CLI
+    docs: https://docs.aklivity.io/latest/reference/2.x/manager/zpm-cli.html
+    docs_1x: https://docs.aklivity.io/latest/reference/1.x/manager/zpm-cli.html
+    description: >-
+      Packages the Zilla runtime with minimal dependencies, resolving Java
+      artifacts from Maven repositories. Default remote repository is
+      https://maven.packages.aklivity.io.
+    commands:
+      - name: install
+        description: Resolve the Zilla Manager configuration into a runtime with minimal dependencies, generating the `zilla` executable.
+        flags:
+          - '--debug'
+          - '--exclude-local-repository'
+          - '--exclude-remote-repositories'
+      - name: wrap
+        description: >-
+          Generate an executable `zpmw` wrapper script that downloads zpm on
+          demand, so zpm need not be installed manually and its version can be
+          pinned.
+        flags:
+          - '--local-repository <localRepoDir>  (default ${user.home}/.m2/repository)'
+          - '--remote-repository <repoURL>  (default https://maven.packages.aklivity.io)'
+          - '--version <version>'
+      - name: clean
+        description: Remove files from the .zpm/ output directory, optionally keeping the runtime image.
+        flags:
+          - '--keep-image'
+      - name: encrypt
+        description: >-
+          Encrypt secrets with a generated master secret, for supplying
+          encrypted credentials to authenticated Maven repositories in the Zilla
+          Manager settings.
+      - name: help
+        description: Show help for the CLI or for a specific command.
+related_tooling:
+  - name: Zilla VS Code Extension
+    id: aklivity.zilla-vscode-ext
+    url: https://marketplace.visualstudio.com/items?itemName=aklivity.zilla-vscode-ext
+    description: >-
+      Renders zilla.yaml as an interactive diagram and provides YAML
+      IntelliSense over the config schema; also runs in vscode.dev directly
+      against a GitHub repository.
+    docs: https://docs.aklivity.io/latest/getting-started/vscode/

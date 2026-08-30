@@ -1,0 +1,88 @@
+generated: '2026-08-30'
+method: searched
+source: >-
+  https://docs.aklivity.io/latest/ai-gateway/mcp-gateway/ and
+  https://www.aklivity.io/zilla-mcp-gateway
+provider: Aklivity
+providerId: aklivity
+status: none
+summary: >-
+  Aklivity does NOT operate an MCP server for its own company or product.
+  Aklivity BUILDS an MCP gateway: Zilla 2.x ships mcp, mcp-http, mcp-kafka,
+  mcp-kafka-connect, mcp-openapi and mcp-schema-registry bindings that a
+  customer deploys in their own infrastructure to expose THEIR APIs, Kafka
+  topics and schema registries as MCP tools. There is no Aklivity-hosted
+  endpoint an agent can POST to, and no npx/pip package that starts an
+  Aklivity MCP server. Every MCP endpoint built with Zilla belongs to the
+  operator who deployed it, not to Aklivity. No `type: MCPServer` pointer is
+  wired in apis.yml for exactly that reason — the pointer would assert an agent
+  surface Aklivity does not serve.
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: unknown
+  verified: searched
+  note: >-
+    Verified by DNS: api., app., console., cloud., platform. and mcp.aklivity.io
+    are all NXDOMAIN. Aklivity's own Technical and Organizational Measures
+    document states the company "provides a self-managed, container-based
+    software solution (e.g., Zilla, Zilla Plus) that customers deploy within
+    their own environments" and "does not operate or access customer data or
+    infrastructure by default" — there is no managed service to expose over MCP.
+product_capability:
+  description: >-
+    What Aklivity ships is the gateway, not the server. Recorded here so the
+    catalog does not confuse "builds MCP infrastructure" with "publishes an MCP
+    server".
+  bindings:
+    - name: mcp
+      kinds: [server, proxy, client]
+      docs: https://docs.aklivity.io/latest/reference/2.x/config/bindings/mcp/
+      role: >-
+        server terminates the inbound Streamable HTTP connection from an agent;
+        proxy routes tool calls to upstreams by toolkit name; client connects to
+        an upstream MCP server over HTTP, WebSocket or SSE
+    - name: mcp-http
+      kinds: [proxy]
+      docs: https://docs.aklivity.io/latest/reference/2.x/config/bindings/mcp-http/
+      role: exposes any HTTP API as MCP tools with no upstream MCP server
+    - name: mcp-openapi
+      kinds: [client]
+      docs: https://docs.aklivity.io/latest/reference/2.x/config/bindings/mcp-openapi/
+      role: compiles an OpenAPI specification into an MCP tool set
+    - name: mcp-kafka
+      kinds: [client]
+      docs: https://docs.aklivity.io/latest/reference/2.x/config/bindings/mcp-kafka/
+      role: exposes Kafka topics as MCP tools
+    - name: mcp-kafka-connect
+      kinds: [client]
+      docs: https://docs.aklivity.io/latest/reference/2.x/config/bindings/mcp-kafka-connect/
+      role: exposes Kafka Connect as MCP tools
+    - name: mcp-schema-registry
+      kinds: [client]
+      docs: https://docs.aklivity.io/latest/reference/2.x/config/bindings/mcp-schema-registry/
+      role: exposes a schema registry as MCP tools
+  features:
+    - tool discovery and a listing cache served from mcp/proxy before any upstream is reached
+    - multi-server aggregation behind one agent-facing endpoint
+    - toolkit-prefix routing
+    - elicitation
+    - OpenAPI overlay to reshape a compiled tool set
+    - OAuth guard (client-credentials, jwt-bearer, token-exchange) and mTLS in front of the tool surface
+    - per-user identity on every tool call (Plus/Enterprise)
+    - BINDING_MCP_SESSION_ESTABLISHED / _CLOSED / _AUTHORIZATION_FAILED / _ELICITATION_TIMEOUT telemetry events
+  transport: MCP Streamable HTTP
+  edition: >-
+    MCP gateway, spec-driven tools from OpenAPI and tool discovery are in the
+    free Community edition; per-user identity, semantic tool search, auto-sized
+    eager tool sets and multi-node MCP sessions are Plus/Enterprise
+    (https://www.aklivity.io/pricing).
+probes:
+  - url: https://mcp.aklivity.io
+    status: NXDOMAIN
+  - url: https://api.aklivity.io
+    status: NXDOMAIN
+  - url: https://www.aklivity.io/.well-known/oauth-protected-resource
+    status: 404

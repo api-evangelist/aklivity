@@ -3,150 +3,111 @@ specificationVersion: '0.1'
 schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
 provider: Aklivity
 providerId: aklivity
+generated: '2026-08-30'
+method: searched
+source: https://www.aklivity.io/pricing
 created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-04'
-tags:
-  - API Gateway
-  - Apache Kafka
-  - Event-Driven
-  - IoT
-  - Kafka Proxy
-  - Multi-Protocol
-  - Real-Time
-description: Machine-readable plans and pricing scaffold for this API provider. Conforms to the API Commons
-  Plans schema. Tier limits and prices are scaffold defaults; replace with provider-published values.
+modified: '2026-08-30'
+supersedes: >-
+  A generated scaffold dated 2026-05-04 that invented Free/Professional/
+  Enterprise tiers with 1,000 and 100,000 monthly request quotas and 10/100 rpm
+  rate limits. None of that was ever published by Aklivity — Aklivity does not
+  meter requests at all. The scaffold is replaced in full by the tiers below,
+  read from the live pricing page.
+description: >-
+  Aklivity prices Zilla per GATEWAY, not per seat and not per request. The
+  pricing page states this explicitly: "No per-seat charges. No throughput
+  metering." Two of the three tiers are contract-priced with no published
+  figure, which is recorded as such rather than guessed.
+pricing_model: per-gateway
+metering: none
+plan_count: 3
+public_prices_published: 1
 plans:
-  - id: aklivity-free
-    name: Free
-    type: freemium
-    description: Free entry tier for the Aklivity API surface. Intended for evaluation, prototyping, and
-      low-volume integrations. Real limits and pricing must be reconciled with the provider's published
-      plan documentation.
-    entries:
-      - label: API Requests
-        description: Monthly API request quota across all included endpoints
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: 1000
-        timeFrame: month
-        geo: global
-        domains: []
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-      - label: Rate Limit
-        description: Maximum requests per minute on the free tier
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 10
-        timeFrame: minute
-        geo: global
-        domains: []
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-    elements:
-      - name: Public Documentation
-      - name: Community Support
-      - name: Sandbox Access
-      - name: Zilla Gateway
-      - name: Zilla Platform
-      - name: ZillaBase
-  - id: aklivity-pro
-    name: Professional
-    type: paid
-    description: Production tier for Aklivity. Provides higher quotas, priority support, and access to
-      the broader API portfolio. Pricing placeholder; align with the provider's pricing page.
-    entries:
-      - label: API Requests
-        description: Monthly API request quota
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: 100000
-        timeFrame: month
-        geo: global
-        domains: []
-        unit: 1
-        price: TBD
-        userMultiplied: false
-      - label: Rate Limit
-        description: Maximum requests per minute on the professional tier
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 100
-        timeFrame: minute
-        geo: global
-        domains: []
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-      - label: Overage
-        description: Per-request price after monthly quota is exceeded
-        name: overage
-        type: metered
-        metric: requests
-        limit: -1
-        timeFrame: month
-        geo: global
-        domains: []
-        unit: 1000
-        price: TBD
-        userMultiplied: false
-    elements:
-      - name: All Production Endpoints
-      - name: Email Support
-      - name: SLA Targets
-      - name: Webhook Subscriptions
-      - name: Zilla Gateway
-      - name: Zilla Platform
-      - name: ZillaBase
+  - id: aklivity-community
+    name: Community
+    type: free
+    price: '0.00'
+    currency: USD
+    billing_period: none
+    description: >-
+      Zilla Gateway, open core. Run it yourself on any infrastructure.
+      Unlimited gateways, self-managed.
+    license: Aklivity Community License (source-available)
+    cta:
+      label: Get it on GitHub
+      url: https://github.com/aklivity/zilla
+    included:
+      - All protocols — HTTP, MQTT, gRPC, WebSocket, SSE, TCP, TLS
+      - JWT guards, TLS, schema validation, Prometheus and OTLP exporters
+      - Kafka protocol mediation to and from Kafka for non-Kafka clients
+      - MCP gateway, spec-driven tools from OpenAPI, tool discovery
+      - AsyncAPI and OpenAPI spec-driven config
+      - Kubernetes and Helm
+      - Community support via GitHub and Slack
+    limits:
+      gateways: unlimited
+      throughput: unmetered
+      support: community only
+  - id: aklivity-plus
+    name: Plus
+    type: contract
+    price: contract
+    currency: USD
+    billing_period: contract
+    unit: per gateway
+    minimum: none
+    description: >-
+      Zilla Plus Gateway. Hardened builds, enterprise identity, and support
+      under SLA. Per gateway, no minimum.
+    cta:
+      label: Talk to an engineer
+      url: https://www.aklivity.io/contact
+    included:
+      - Everything in Community
+      - OAuth, API-key and vendor IdP guards including Azure AD, AWS Cognito, AWS IAM
+      - Hardened AMI and container images, AWS Secrets Manager, CloudWatch and Syslog exporters
+      - Kafka-native client proxying, secure public and private access, virtual clusters
+      - AWS MSK, Confluent Cloud and Redpanda support
+      - Per-user identity on every MCP tool call, semantic tool search, auto-sized eager tool sets, multi-node MCP sessions
+      - Shared state across instances (Redis, Hazelcast)
+      - Gold support — 12x5 coverage, 8-hour Severity 1 response
+    add_ons:
+      - name: Zilla Console
+        pricing: flat-rate
+    limits:
+      price_published: false
   - id: aklivity-enterprise
     name: Enterprise
-    type: enterprise
-    description: Custom-negotiated tier for Aklivity. Includes dedicated capacity, contractual SLAs, security
-      review, data residency options, and named technical account management.
-    entries:
-      - label: API Requests
-        description: Negotiated request volume; -1 indicates uncapped subject to fair use
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: -1
-        timeFrame: month
-        geo: configurable
-        domains: []
-        unit: 1
-        price: custom
-        userMultiplied: false
-      - label: Rate Limit
-        description: Negotiated burst and steady-state rate
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 1000
-        timeFrame: minute
-        geo: configurable
-        domains: []
-        unit: 1
-        price: custom
-        userMultiplied: false
-    elements:
-      - name: Unlimited / Negotiated Volume
-      - name: 24/7 Dedicated Support
-      - name: Contractual SLA
-      - name: Security & Compliance Review
-      - name: Dedicated Account Manager
-      - name: Custom Data Residency
-      - name: Zilla Gateway
-      - name: Zilla Platform
-      - name: ZillaBase
+    type: contract
+    price: contract
+    currency: USD
+    billing_period: contract
+    unit: per gateway
+    minimum: 8 gateways
+    description: >-
+      Zilla Plus Gateway with the Zilla Console management layer bundled in.
+      From 8 gateways.
+    cta:
+      label: Contact sales
+      url: https://www.aklivity.io/contact
+    included:
+      - Everything in Plus
+      - Zilla Console management layer, bundled
+      - API and Data Product catalog
+      - Self-service developer portal
+      - Governance, audit and RBAC
+      - Kafka explorer GUI, gateway observability, policy and identity, teams and org management
+      - On-premises and air-gapped deployment
+      - Platinum support — 24x7 coverage, 2-hour Severity 1 response, named TAM
+    limits:
+      price_published: false
+marketplace:
+  - name: AWS Marketplace
+    url: https://aws.amazon.com/marketplace/pp/prodview-jshnzslazfm44
+    status: 200
+    note: Zilla Plus is also transactable through AWS Marketplace.
+comparison_page: https://www.aklivity.io/pricing
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
