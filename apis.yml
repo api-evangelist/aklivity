@@ -15,16 +15,20 @@ description: >-
   Aklivity API and no Aklivity-issued credential.
 type: Index
 deliveryModel:
-  model: unknown
+  model: saas
+  license_evidence:
+    not_product:
+    - aklivity/zilla
+    - aklivity/zillabase
   open_source: unknown
   commercial: true
   callable_host: false
-  label: Delivery model not determined — needs a product licence on record
+  label: Hosted service · you call their endpoint
   confidence: low
   source:
   - pricing
-  - repository-unlicensed
-  generated: '2026-08-28'
+  - repository-not-product
+  generated: '2026-09-25'
   method: derived
 accessModel:
   pricing: freemium
@@ -52,7 +56,7 @@ tags:
   - Kafka Proxy
   - MCP
   - Multi-Protocol
-  - Open-Source
+  - Open Source
   - Real-Time
 tags_raw:
   - AI Gateway
@@ -67,6 +71,7 @@ tags_raw:
   - Multi-Protocol
   - Open Source
   - Real-Time
+  - Open-Source
 url: >-
   https://raw.githubusercontent.com/api-evangelist/aklivity/refs/heads/main/apis.yml
 created: '2026-01-02'
