@@ -111,3 +111,31 @@ comparison_page: https://www.aklivity.io/pricing
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - free
+  - negotiated
+  units: []
+  plans:
+  - name: Community
+    access: free
+    model: free
+    model_how: derived
+    units: []
+    periods: []
+  - name: Plus
+    access: negotiated
+    model: negotiated
+    model_how: stated
+    units:
+    - other
+    periods: []
+  - name: Enterprise
+    access: negotiated
+    model: negotiated
+    model_how: stated
+    units:
+    - other
+    periods: []
