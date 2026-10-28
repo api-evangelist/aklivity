@@ -1,4 +1,4 @@
-# Aklivity (aklivity)
+# Aklivity
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,138 +64,142 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Aklivity provides the Zilla multi-protocol edge and service proxy for event-driven architectures, enabling seamless integration between web apps, IoT clients, and microservices with Apache Kafka via declaratively defined, stateless APIs. Zilla supports HTTP, gRPC, MQTT, SSE, and WebSocket protocols, translating them to and from Kafka without custom code or connectors. The Zilla Platform adds enterprise governance, observability, and self-service access management for Kafka deployments.
+Aklivity builds Zilla, a stateless, source-available multi-protocol gateway for event-driven applications and AI agents. Zilla translates HTTP, SSE, WebSocket, MQTT, gRPC and MCP Streamable HTTP to and from Apache Kafka and other backends, configured declaratively in a zilla.yaml or driven directly from an OpenAPI or AsyncAPI document, with no custom code, connectors or separate MQTT broker. The Zilla MCP Gateway compiles OpenAPI specs, Kafka topics, Kafka Connect and schema registries into governed MCP tool sets that agents call through one authenticated endpoint. The Zilla Console adds an API and data-product catalog, a self-service developer portal, governance, audit and RBAC. Aklivity is a software vendor rather than a service operator: every Zilla runs inside the customer's own infrastructure, so there is no hosted Aklivity API and no Aklivity-issued credential.
 
-**URL:** [Visit APIs.json URL](https://raw.githubusercontent.com/api-evangelist/aklivity/refs/heads/main/apis.yml)
+**Areas:** AI Gateway · API Gateway · Agent Infrastructure · Apache Kafka · AsyncAPI · Event-Driven · IoT · Kafka Proxy · MCP · Multi-Protocol · Open Source · Real-Time
 
-**Run:** [Capabilities Using Naftiko](https://github.com/naftiko/fleet?utm_source=api-evangelist&utm_medium=readme&utm_campaign=company-api-evangelist&utm_content=repo)
+## Aklivity on APIs.io
 
-## Tags:
+Everything profiled for Aklivity is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/aklivity/](https://apis.io/providers/aklivity/)** — or go straight to one of the APIs or properties below.
 
- - API Gateway, Apache Kafka, Event-Driven, IoT, Kafka Proxy, Multi-Protocol, Real-Time
+### APIs (4)
 
-## Timestamps
+- [Zilla Gateway](https://apis.io/apis/aklivity/zilla-gateway/) — Zilla is a stateless, cloud-native multi-protocol edge and service proxy that enables seamless access to Apache Kafka through HTTP REST, gRPC, SSE, MQTT,…
+- [Zilla Platform](https://apis.io/apis/aklivity/zilla-platform/) — The Zilla Platform adds an enterprise management layer on top of Zilla Gateway, providing API data products with versioning and rate limits, Kafka…
+- [Zilla MCP Gateway](https://apis.io/apis/aklivity/zilla-mcp-gateway/) — The Zilla MCP Gateway is the AI-facing face of the Zilla engine. It terminates Model Context Protocol Streamable HTTP from an agent and routes each tool…
+- [ZillaBase](https://apis.io/apis/aklivity/zillabase/) — ZillaBase is an event-driven backend framework for the next generation of web, mobile, and AI applications, built on top of Apache Kafka and Zilla to enable…
 
-- **Created:** 2026-01-02
-- **Modified:** 2026-04-19
+### Published properties
 
-## APIs
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-### Zilla Gateway
-Zilla is a stateless, cloud-native multi-protocol edge and service proxy that enables seamless access to Apache Kafka through HTTP REST, gRPC, SSE, MQTT, and WebSocket protocols.
+#### JSON Schema (1)
 
-**Human URL:** [https://www.aklivity.io/](https://www.aklivity.io/)
+The data models the API reads and writes.
 
-#### Tags:
+- [Namespace](https://apis.io/schemas/aklivity/aklivity-zilla-engine.schema/)
 
- - API Gateway, Apache Kafka, Event-Driven, Kafka Proxy, Multi-Protocol
+#### JSON-LD (1)
 
-#### Properties
+Linked-data contexts for the provider's vocabulary.
 
-- [Documentation](https://docs.aklivity.io/zilla/latest/)
-- [GettingStarted](https://docs.aklivity.io/zilla/latest/getting-started/quickstart/)
-- [GitHubRepository](https://github.com/aklivity/zilla)
+- [Aklivity Context](https://apis.io/jsonld/aklivity/aklivity-context/)
 
-### Zilla Platform
-The Zilla Platform adds an enterprise management layer with API data products, Kafka governance policies, self-service developer portal, field-level encryption, and unified observability.
+#### Vocabulary (1)
 
-**Human URL:** [https://www.aklivity.io/platform](https://www.aklivity.io/platform)
+The provider's domain terms, defined.
 
-#### Tags:
+- [Aklivity Vocabulary](https://apis.io/vocabularies/aklivity/aklivity-vocabulary/)
 
- - API Management, Developer Portal, Governance, Kafka Management, Observability
+#### Governance rules (1)
 
-#### Properties
+Spectral rulesets for the provider's contracts.
 
-- [Documentation](https://docs.aklivity.io/)
+- [Aklivity API Rules](https://apis.io/rules/aklivity/aklivity-spectral-rules/)
 
-### ZillaBase
-ZillaBase is an event-driven backend framework for web, mobile, and AI applications built on Apache Kafka and Zilla.
+#### Security (3)
 
-**Human URL:** [https://github.com/aklivity/zillabase](https://github.com/aklivity/zillabase)
+Authentication, trust centre, and vulnerability disclosure.
 
-#### Tags:
+- [Aklivity Authentication](https://apis.io/security/aklivity/aklivity-authentication/)
+- [Aklivity Domain Security](https://apis.io/security/aklivity/aklivity-domain-security/)
+- [Aklivity Vulnerability Disclosure](https://apis.io/security/aklivity/aklivity-vulnerability-disclosure/)
 
- - Backend Framework, Event-Driven, Real-Time
+#### Plans and pricing (1)
 
-#### Properties
+Published plans, tiers and prices.
 
-- [Documentation](https://docs.aklivity.io/)
-- [GitHubRepository](https://github.com/aklivity/zillabase)
+- [Aklivity Plans Pricing](https://apis.io/plans/aklivity/aklivity-plans-pricing/)
 
-## Common Properties
+#### Rate limits (1)
+
+Published request limits.
+
+- [Aklivity Rate Limits](https://apis.io/rate-limits/aklivity/aklivity-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Aklivity Finops](https://apis.io/finops/aklivity/aklivity-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
 - [Website](https://www.aklivity.io/)
-- [Documentation](https://docs.aklivity.io/zilla/latest/)
-- [GettingStarted](https://docs.aklivity.io/zilla/next/getting-started/quickstart/)
-- [GitHubOrganization](https://github.com/aklivity)
-- [GitHubRepository](https://github.com/aklivity/zilla)
+- [Documentation](https://docs.aklivity.io/latest/)
+- [Getting started](https://docs.aklivity.io/latest/getting-started/)
+- [API reference](https://docs.aklivity.io/latest/reference/2.x/)
 - [Pricing](https://www.aklivity.io/pricing)
+- [Support](https://docs.aklivity.io/latest/support/)
+- [Blog](https://www.aklivity.io/blog)
+- [Security](https://www.aklivity.io/security)
+- [Terms of service](https://www.aklivity.io/terms-of-service)
+- [Privacy policy](https://www.aklivity.io/privacy-policy)
+- [GitHub](https://github.com/aklivity)
 
-## Features
+## API Evangelist rating
 
-| Name | Description |
-|------|-------------|
-| Multi-Protocol Kafka Access | Translates HTTP REST, gRPC, MQTT, SSE, and WebSocket protocols directly to Kafka topics without custom code, connectors, or middleware. |
-| Declarative Configuration | Define gateways and protocol mappings via YAML configuration or AsyncAPI specifications, then deploy with Docker, Helm, or native binaries. |
-| JWT Authentication and TLS | Built-in JWT token validation, TLS termination, and Kafka SASL support for securing API access to Kafka clusters. |
-| Schema Validation | SIMD-optimized runtime schema validation for JSON, Avro, and Protobuf via Confluent Schema Registry or AWS Glue Schema Registry. |
-| Observability | Metrics and logs exported to Prometheus and OpenTelemetry for unified visibility across Kafka API traffic. |
-| Kafka Governance | Topic naming policies, runtime enforcement, schema compliance rules, and API data product versioning with rate limits via Zilla Platform. |
-| Self-Service Developer Portal | API key and certificate management self-service portal for Kafka consumers and producers via Zilla Platform. |
-| Field-Level Encryption | PII classification and field-level encryption for sensitive data in Kafka messages via Zilla Platform. |
+**Kin Score 48.6** — developing · rubric 0.25.0 · scored 2026-10-23
 
-## Use Cases
+| Facet | Score |
+|---|---|
+| Discoverability | 62.5 |
+| Contract quality | 13.9 |
+| Contract governance | 41.7 |
+| Operational transparency | 36.8 |
+| Developer ergonomics | 70.7 |
+| Access clarity | 63.2 |
 
-| Name | Description |
-|------|-------------|
-| HTTP to Kafka REST API | Expose Kafka topics as REST API endpoints, allowing any HTTP client to produce and consume Kafka messages without Kafka client libraries. |
-| IoT MQTT to Kafka | Connect IoT devices using MQTT protocol directly to Kafka topics, eliminating the need for a separate MQTT broker. |
-| gRPC to Kafka | Route gRPC calls from microservices to Kafka topics for event-driven inter-service communication. |
-| Kafka Self-Service Platform | Platform teams build internal developer portals for Kafka access with governance, rate limiting, and self-service API key management. |
-| Event-Driven Partner Integration | Enterprises expose Kafka event streams to external partners via secured, rate-limited REST or SSE APIs. |
-| Financial Services Data Distribution | Financial institutions distribute real-time market data and trade events via secured Kafka API gateways. |
+**Agent readiness 14.4** — agent-aware
 
-## Integrations
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | — |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | documented (partial credit) |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | unknown |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | na |
 
-| Name | Description |
-|------|-------------|
-| Apache Kafka | Core integration — Zilla acts as a multi-protocol proxy in front of any Kafka cluster |
-| AWS MSK | Managed Streaming for Apache Kafka integration with AWS-native security |
-| Confluent Schema Registry | Schema validation and enforcement using Confluent Schema Registry |
-| AWS Glue Schema Registry | Schema validation using AWS Glue Schema Registry |
-| Prometheus | Metrics export for monitoring Zilla gateway performance |
-| OpenTelemetry | Distributed tracing and observability via OpenTelemetry |
-| AWS Secrets Manager | Secure credential management for Kafka and TLS configurations |
+**Regulatory alignment 30.4** — Horizontal (data, software, accessibility, platform)
 
-## JSON-LD
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/aklivity/](https://apis.io/providers/aklivity/).
 
-- [Aklivity Context](json-ld/aklivity-context.jsonld)
+## How this profile is made
 
-## Capabilities
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
 
-Naftiko capabilities organized as shared per-API definitions composed into customer-facing workflows.
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Aklivity: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
 
-### Shared Per-API Definitions
+## Open an issue
 
-- [Zilla Gateway](capabilities/shared/zilla-gateway.yaml) — 2 operations for Kafka message production and consumption
-
-### Workflow Capabilities
-
-| Workflow | APIs Combined | Tools | Persona |
-|----------|--------------|-------|---------|
-| [Kafka API Gateway](capabilities/kafka-api-gateway.yaml) | Zilla Gateway | 2 | Platform Engineer, API Developer, IoT Developer |
-
-## Vocabulary
-
-- [Aklivity Vocabulary](vocabulary/aklivity-vocabulary.yaml) — Unified taxonomy mapping 4 resources, 6 actions, 1 workflow, and 3 personas across operational and capability dimensions
-
-## Rules
-
-- [Aklivity Spectral Rules](rules/aklivity-spectral-rules.yml) — 11 rules across 6 categories enforcing Aklivity API conventions
-
-## Maintainers
-
-**FN:** Kin Lane
-
-**Email:** kin@apievangelist.com
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/aklivity/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
